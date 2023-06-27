@@ -1,6 +1,6 @@
 # ProjectCore v.1.0.0
 
-Release date Juli 2023 actually its on Testing!
+Not stable yet
 
 # Features 
 - [✓] LanguageSystem
