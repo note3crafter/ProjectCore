@@ -27,6 +27,8 @@ Lifts Addon -> in Work
 # Important information
 The Project Core can have errors! Of course we are working to fix these errors! We will also use this project on our server!
 
+Please install InvMenu or by the Command /ec will it crash xd
+
 # Servers 
 CyberCrafft
 play-cybercraft.de
