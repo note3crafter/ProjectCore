@@ -1,0 +1,57 @@
+---
+#Dont Touch This
+Version: 1.0.0
+
+#NetworkName
+NetWorkName: true
+ServerName: "§f[§5Project§dCore§f]"
+
+#HubCommandSettings
+HubFood: true
+HubHeal: true
+HubTeleportsound: true
+
+#StarterKit
+StarterKit: true
+Inventory: true
+Amor: true
+
+#Join Settings
+JoinMessage: true
+JoinMSG: "§f[§a+§f] {prefix} {player} §ajoin the Server! §f[§a{count}§f/§a{slots}§f]"
+JoinTip: true
+TipMSG: "§eWelcome {player}"
+JoinTitle: true
+TitleMSG: "§dWelcome"
+SubTitleMSG: "§e{player}"
+JoinLightning: true
+JoinTotem: true
+
+#Quit Settings
+QuitMessage: true
+QuitMSG: "§f[§c-§f] {prefix} {player} §cleave the Server! §f[§a{count}§f/§a{slots}§f]"
+
+#Economomy
+DefaultMoney: 1000
+
+#Rejoin
+Rejoin: true
+IP: play-cybercraft.de
+Port: 19132
+
+#SpawnProtection
+SpawnProtection: true
+Radius: 32 #Set the Radius
+NoPVP: false
+NoDrop: true
+NoInteract: true
+
+#Keepinventory
+KeepInventory: true #keep your inventar
+
+#DefaultSpawn
+DefaultSpawn: true #teleports the player back every join in the Lobby!
+
+#JavaSnaking
+JavaSneak: true
+...

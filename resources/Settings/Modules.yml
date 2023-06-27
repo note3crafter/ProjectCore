@@ -1,0 +1,99 @@
+---
+###Setting up here your Commands and functions
+#BanSystem
+BanSystem: true #ban a player
+
+###EconomySystem
+EconomySystem: true
+#EconomyCommands
+GiveMoney: true #give you money
+MyMoney: true #see your money
+PayAll: true #pay money to all players
+PayMoney: true #pay money to a player
+SeeMoney: true #see money of a player
+SetMoney: true #set money to a player
+TakeMoney: true #take money from a player
+TopMoney: true #get the top list of players money
+
+###Essentials
+Essentials: true
+#EssentialsCommands
+AFK: true #set you afk
+Back: true #go to you last dead point
+Burn: true #burn a player
+ChatClear: true #clear the chat
+Clear: true #clear your inventory
+Day: true #set the time to day
+Heal: true #heal you
+EnderChest: true #get you enderchest
+Extinguish: true #extinguish you
+Feed: true #feed you
+Fly: true #fly in survival
+Godmode: true #make you to god
+ID: true #get the itemname from your hand
+Kick: true #kick a player
+Kickall: true #kick all players
+Milk: true #clear all effects
+Nick: true #change your name
+Night: true #set the time to night
+Near: true #get players in the near of you
+Nuke: true #make a atombomb
+Position: true #get your position
+Realname: true #looks players realname
+Repair: true #repair a item
+Rename: true #rename a item
+Sign: true #sign a item
+Size: true #set your size
+Speed: true #set your speed
+Sudo: true #sudo to a player
+Top: true #go up to the highst block
+TPAll: true #tp all players to you
+Unnick: true #change your name
+Vanish: true #Vanishing you
+
+###Gamemode
+GamemodeSystem: true
+#Gamemode Commands
+Advendture: true
+Creative: true
+Spectator: true
+Survival: true
+
+###GroupSystem
+GroupSystem: true #Create your own Groups and manage these
+
+###HomeSystem
+HomeSystem: true #Set your Home
+
+###Misc
+Misc: true
+#MiscFeatures
+AdminItems: true #Give your Adminitems
+LightningCommand: true #Make a Lightning to a Player
+
+###MSGSystem
+MSGSystem: true
+#Commands
+NoMSG: true #Block your MSG
+Tell: true #MSG a Player
+
+###Other Things
+Otherthings: true
+#Commands
+ClearLagg: true #Clear Mobs and Items
+Hub: true #Set the Hub
+SeePerms: true #visit Plugin Perms
+
+###TPASystem
+TPASystem: true #send a tpa request to a player
+
+###WarpSystem
+WarpSystem: true #set warps for teleporting
+
+###WeatherSystem
+WeatherSystem: true #Enable Weather
+
+###SpawnParticle
+Particle: true
+...
+

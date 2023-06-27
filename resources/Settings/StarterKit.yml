@@ -1,0 +1,73 @@
+---
+# Welcome to CoreV6 : StarterKit 3.0.0 by TheNote
+# You Can now setup more Features
+
+# set it to false to deactivate the Amor!
+Armor: true
+
+# item = This is the Itemname
+# name = Set a custom Name for the Item
+# lore = Set a Lore for a sign for the Item
+helm:
+  item: leather_cap
+  name: §6StarterHelemt
+  lore: This is a StarterKit Item
+chest:
+  item: leather_tunic
+  name: §6StarterChestplate
+  lore: This is a StarterKit Item
+leggins:
+  item: leather_pants
+  name: §6StarterLeggins
+  lore: This is a StarterKit Item
+boots:
+  item: leather_boots
+  name: §6StarterBoots
+  lore: This is a StarterKit Item
+
+# set it to false to deactivate the Inventory!
+Inventory: true
+
+  # - slot: <- Set the Slot wo are the Item Place (0-35)
+  #   item: <- set the ItemName of the Item
+  #   count: <- set the amount of the Item
+  #   name: <- set a Customname for the Item
+  #   lore: <- set the Lore of the Item
+
+Slots:
+  - slot: 0
+    item: stone_sword
+    count: 1
+    name: StarterSword
+    lore: CoreV7 by TheNote
+
+  - slot: 1
+    item: stone_axe
+    count: 1
+    name: StarterAxe
+    lore: CoreV7 by TheNote
+
+  - slot: 2
+    item: stone_pickaxe
+    count: 1
+    name: StarterPickaxe
+    lore: CoreV7 by TheNote
+
+  - slot: 3
+    item: stone_shovel
+    count: 1
+    name: StarterShovel
+    lore: CoreV7 by TheNote
+
+  - slot: 4
+    item: cooked_porkchop
+    count: 32
+    name: StarterPorkchop
+    lore: CoreV7 by TheNote
+
+  - slot: 5
+    item: diamond
+    count: 8
+    name: StarterDiamond
+    lore: CoreV7 by TheNote
+...

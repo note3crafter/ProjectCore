@@ -1,0 +1,113 @@
+---
+#Do not Touch this
+Version: 1.0.0
+#Prefix
+Prefix: "§f[§5Project§dCore§f] "
+Error: "§f[§cError§f] "
+Ban: "§f[§1Ban§f] "
+Home: "§f[§aHome§f] "
+Warp: "§f[§aWarp§f] "
+TPA: "§f[§aTPA§f] "
+MSG: "§f[§bMSG§f] "
+Info: "§f[§eInfo§f] "
+Money: "§f[§aMoney§f] "
+AFK: "§f[§6AFK§f] "
+Group: "§f[§6Group§f] "
+
+#CommandDescription
+#
+#BanSystem
+BanDescription: "Banne einen Spieler"
+UnbanDescription: "Entbanne einen Spieler"
+
+#Economy
+GiveMoneyDescription: "Gebe einem Spieler Geld"
+MyMoneyDescription: "Siehe deinen Geldstand"
+PayallDescription: "Verschenke dein Geld an alle Spieler auf dem Server"
+PayMoneyDescription: "Zahle einen Spieler Geld"
+SeeMoneyDescription: "Siehe den Spielstand eines anderen Spielers"
+SetMoneyDescription: "Setze den Geldstand eines Spielers"
+TakeMoneyDescription: "Hole das Geld eines Spielers"
+TopMoneyDescription: "Siehe die Topliste der Spieler"
+
+#Essentials
+AFKDescription: "Setze dich Afk"
+BackDescription: "Teleportiere dich zu deinem Letzten Standort"
+BurnDescription: "Zünde einen anderen Spieler an"
+ChatClearDescription: "Leere den Chat"
+ClearDescription: "Löscht dein Ganzes Inventar!"
+DayDescription: "Setzt die Zeit auf Tag"
+EnderChestDescription: "Siehe in deiner Enderchest"
+ExtingGuishPrefix: "Entferne deinen Brand"
+FeedDescription: "Stillt dein Hunger"
+FlyDescription: "Aktiviert/Deaktiviert Fliegen"
+GodModeDescription: "Werde Unsterblich"
+HealDescription: "Heile dich oder einen anderen"
+ItemIDDescription: "Zeige die ID unn den Namen des Items"
+KickAllDescription: "Kickt alle Spieler vom Server!"
+KickDescription: "Kicke einen Spieler"
+MilkDescription: "Entferne deine Effecte"
+NearDescription: "Zeige die Spieler in deiner Nähe"
+NickDescription: "Ändere dein §eNickname"
+NightDescription: "Setzt die Zeit auf Nacht"
+NukeDescription: "Jage die Umgebung in die Luft"
+PosDescription: "Zeige deine Position an"
+RealnameDescription: "Zeige den echten Namen eines Spielers"
+RenameDescription: "Benenne ein Item um"
+RepairDescription: "Repaiert ein Item"
+SignDescription: "Signiere ein Item"
+SizeDescription: "Verändere deine Größe"
+SpeedDescription: "Gebe deine Geschwindigkeit an"
+SudoDescription: "Führe ein Command/Nachrricht als ein anderen Spieler aus"
+TopDescription: "Teleportiere dich zum Höchsten Block über dir"
+TPallDescription: "Teleportiert alle Spieler zu dir"
+UnnickDescription: "Setze deinen Nick zurück"
+VanishDescription:  "Aktiviert/Deaktiviert Vanish"
+
+#Gamemode
+AdventureDescription: "Setzt den Spielmodus auf Abenteuer"
+CreativeDescription: "Setzt den Spielmodus auf Kreativ"
+SpectatorDescription: "Setzt den Spielmodus auf Spectator"
+SurvivalDescription: "Setzt den Spielmdous auf Survial"
+
+#GroupSystem
+GroupDescription: "Setze die Gruppe eines Spielers"
+
+#HomeSystem
+DelHomeDescription: "Löscht das angegebene Home aus deiner Liste"
+HomeDescription: "Teleportiere dich zu deinem Home"
+ListHomeDescription: "Listet deine derzeitigen Homes auf"
+SetHomeDescription: "Setzte dein Home"
+
+#Misc
+AdminItemsDescription: "Hole dir SuperItems"
+LightningDescription: "Lasse es Krachen"
+
+#MSGSystem
+NoDMDescription: "Aktiviere/Deaktiviere deine Privatnachrrichten"
+ReplyDescription: "Antworte auf deine Letzte Privatnachricht"
+TellDescription: "Sende eine Privatnachrricht"
+
+#Other
+ClearLaggDescription: "Löscht alle Items die auf dem Boden Liegen"
+HubDescription: "Teleportiere dich zum Spawn"
+SetHubDescription: "Setzte den Hub"
+SeePermsDescription: "Siehe die Pluginberechtigung eines Plugins"
+
+#TPASystem
+TPAacceptDescription: "Nehme eine Teleportanfrage an"
+TPADescription: "Sende eine Teleportanfrage an einem Spieler"
+TPAdenyDescription: "Lehne eine Teleportanfrage ab"
+TPAhereDescription: "Sende eine Teleportanfrage an einem Spieler zu dir"
+
+#WarpSystem
+DelWarpDescription: "Lösche ein Warppunkt"
+ListWarpDescription: "Liste alle Warps auf"
+SetWarpDescription: "Setze ein Warppunkt & bearbeite den Warp"
+WarpDescription:  "Teleportiere dich zu einem Warp"
+
+#WeatherSystem
+WeatherDescription: "Ändere das Wetter"
+ToggleDownFallDescription: "Schalte das Wetter um"
+...
+
