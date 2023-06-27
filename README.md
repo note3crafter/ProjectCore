@@ -15,12 +15,14 @@ Release date Juli 2023 actually its on Testing!
 - [✓] WeatherSystem
 - [✓] Ban System
 - [✓] MultiLanguage Support
+- [✓] Java Sneaking
 - [✓] Everything is adjustable
 
+
 # Addons
-ScoreBoard Addon
-Leaderboard Addon
-Lifts Addon
+ScoreBoard Addon in Work
+Leaderboard Addon in Work
+Lifts Addon -> in Work
 
 # Important information
 The Project Core can have errors! Of course we are working to fix these errors! We will also use this project on our server!
