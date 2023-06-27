@@ -1,4 +1,4 @@
-# PorjectCore v.1.0.0
+# ProjectCore v.1.0.0
 
 Features 
 - [✓] LanguageSystem
