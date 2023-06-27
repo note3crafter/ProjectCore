@@ -1,0 +1,146 @@
+name: ProjectCore
+main: TheNote\core\Main
+version: 1.0.0-ALPHA
+api:
+  - 5.1.0
+author: TheNote/Rudolf2000/note3crafter
+description: ProjectCore v1.0.0 ALPHA
+permissions:
+  ProjectCore:
+    description: "DefaultPermission"
+    default: true
+  core.command.ban:
+    default: op
+  core.command.unban:
+    default: op
+
+  core.command.givemoney:
+    default: op
+  core.command.setmoney:
+    default: op
+  core.command.takemoney:
+    default: op
+
+  core.command.back:
+    default: op
+  core.command.burn:
+    default: op
+  core.command.chatclear:
+    default: op
+  core.command.clear:
+    default: op
+  core.command.clear.other:
+    default: op
+  core.command.day:
+    default: op
+  core.command.enderchest:
+    default: op
+  core.command.extinguish:
+    default: op
+  core.command.extinguish.other:
+    default: op
+  core.command.feed:
+    default: op
+  core.command.feed.other:
+    default: op
+  core.command.fly:
+    default: op
+  core.command.fly.other:
+    default: op
+  core.command.godmode:
+    default: op
+  core.command.heal:
+    default: op
+  core.command.heal.other:
+    default: op
+  core.command.id:
+    default: op
+  core.command.kickall:
+    default: op
+  core.command.kick:
+    default: op
+  core.command.milk:
+    default: op
+  core.command.milk.other:
+    default: op
+  core.command.near:
+    default: op
+  core.command.nick:
+    default: op
+  core.command.night:
+    default: op
+  core.command.nuke:
+    default: op
+  core.command.nuke.other:
+    default: op
+  core.command.position:
+    default: op
+  core.command.realname:
+    default: op
+  core.command.rename:
+    default: op
+  core.command.repair:
+    default: op
+  core.command.sign:
+    default: op
+  core.command.size:
+    default: op
+  core.command.speed:
+    default: op
+  core.command.sudo:
+    default: op
+  core.command.top:
+    default: op
+  core.command.tpall:
+    default: op
+  core.command.vanish:
+    default: op
+
+  core.command.adventure:
+    default: op
+  core.command.adventure.other:
+    default: op
+  core.command.creative:
+    default: op
+  core.command.creative.other:
+    default: op
+  core.command.spectator:
+    default: op
+  core.command.spectator.other:
+    default: op
+  core.command.survival:
+    default: op
+  core.command.survival.other:
+    default: op
+
+  core.command.group:
+    default: op
+
+  core.command.adminitems:
+    default: op
+  core.command.adminitems.superbow:
+    default: op
+  core.command.adminitems.explosivbow:
+    default: op
+  core.command.adminitems.explosivegg:
+    default: op
+  core.command.lightning:
+    default: op
+
+  core.command.nodm.bypass:
+    default: op
+
+  core.command.clearlagg:
+    default: op
+  core.command.seeperms:
+    default: op
+  core.command.sethub:
+    default: op
+
+  core.command.delwarp:
+    default: op
+  core.command.setwarp:
+    default: op
+
+  core.command.weather:
+    default: op
