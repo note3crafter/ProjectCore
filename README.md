@@ -1,5 +1,7 @@
 # ProjectCore v.1.0.0
 
+Discord : [Join](https://discord.gg/ju2gGzq)
+
 Not stable yet
 
 # Features 
