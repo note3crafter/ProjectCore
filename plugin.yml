@@ -1,99 +1,141 @@
 name: ProjectCore
 main: TheNote\core\Main
-version: 1.0.0-ALPHA
+version: 1.1.0-BETA
 api:
-  - 5.1.0
+  - 5.3.0
 author: TheNote/Rudolf2000/note3crafter
-description: ProjectCore v1.0.0 ALPHA
+description: ProjectCore v1.1.0 BETA
 permissions:
   ProjectCore:
     description: "DefaultPermission"
     default: true
   core.command.ban:
+    description: "Ban a Player"
     default: op
   core.command.unban:
+    description: "Unban a Player"
     default: op
 
   core.command.givemoney:
+    description: "Give money to Player"
     default: op
   core.command.setmoney:
+    description: "Set money to Player"
     default: op
   core.command.takemoney:
+    description: "Take money from Player"
     default: op
 
   core.command.back:
+    description: "go to the last deathpoint"
     default: op
   core.command.burn:
+    description: "Burn a Player"
     default: op
   core.command.chatclear:
+    description: "Clear a chat"
     default: op
   core.command.clear:
+    description: "Clear your inv"
     default: op
   core.command.clear.other:
+    description: "Clear other inv"
     default: op
   core.command.day:
+    description: "Set the time to day"
     default: op
   core.command.enderchest:
+    description: "Open your enderchest"
     default: op
   core.command.extinguish:
+    description: "Extinguish a Player"
     default: op
   core.command.extinguish.other:
+    description: "Extinguis a other Player"
     default: op
   core.command.feed:
+    description: "Feed you"
     default: op
   core.command.feed.other:
+    description: "Feed other Player"
     default: op
   core.command.fly:
+    description: "Fly"
     default: op
   core.command.fly.other:
+    description: "Fly other"
     default: op
   core.command.godmode:
+    description: "Godmode"
     default: op
   core.command.heal:
+    description: "Heal you"
     default: op
   core.command.heal.other:
+    description: "Heal other"
     default: op
   core.command.id:
+    description: "itemid"
     default: op
   core.command.kickall:
+    description: "kick all player from server"
     default: op
   core.command.kick:
+    description: "kick a player"
     default: op
   core.command.milk:
+    description: "milk"
     default: op
   core.command.milk.other:
+    description: "milk other"
     default: op
   core.command.near:
+    description: "near to you"
     default: op
   core.command.nick:
+    description: "change your name"
     default: op
   core.command.night:
+    description: "set the time to night"
     default: op
   core.command.nuke:
+    description: "rico says kaboom"
     default: op
   core.command.nuke.other:
+    description: "nuke other"
     default: op
   core.command.position:
+    description: "see your position"
     default: op
   core.command.realname:
+    description: "realname of a player"
     default: op
   core.command.rename:
+    description: "rename a item"
     default: op
   core.command.repair:
+    description: "repair a item"
     default: op
   core.command.sign:
+    description: "sign a item"
     default: op
   core.command.size:
+    description: "set your size"
     default: op
   core.command.speed:
+    description: "set your speed"
     default: op
   core.command.sudo:
+    description: "sudo"
     default: op
   core.command.top:
+    description: "go to top block"
     default: op
   core.command.tpall:
+    description: "tp all players to you"
     default: op
   core.command.vanish:
+    description: "vanish"
     default: op
 
   core.command.adventure:
@@ -143,4 +185,8 @@ permissions:
     default: op
 
   core.command.weather:
+    default: op
+
+
+  core.events.spawnprotection.bypass:
     default: op

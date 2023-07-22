@@ -1,4 +1,6 @@
 ---
+Version: 1.1.0
+
 ###Setting up here your Commands and functions
 #BanSystem
 BanSystem: true #ban a player
@@ -83,6 +85,10 @@ Otherthings: true
 ClearLagg: true #Clear Mobs and Items
 Hub: true #Set the Hub
 SeePerms: true #visit Plugin Perms
+StatsSystem: true #Use Stats for your Server
+
+###ScoreBoardSystem
+ScoreBoardSystem: true
 
 ###TPASystem
 TPASystem: true #send a tpa request to a player
@@ -95,5 +101,14 @@ WeatherSystem: true #Enable Weather
 
 ###SpawnParticle
 Particle: true
+
+###Elevators
+Elevators: true
+
+###Stats
+Stats: true
+
+###DiscordAPI
+DiscordSystem: false
 ...
 

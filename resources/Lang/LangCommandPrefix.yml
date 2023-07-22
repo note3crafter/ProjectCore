@@ -1,6 +1,6 @@
 ---
 #Do not Touch this
-Version: 1.0.0
+Version: 1.1.0
 #Prefix
 Prefix: "§f[§5Project§dCore§f] "
 Error: "§f[§cError§f] "
@@ -13,7 +13,11 @@ Info: "§f[§eInfo§f] "
 Money: "§f[§aMoney§f] "
 AFK: "§f[§6AFK§f] "
 Group: "§f[§6Group§f] "
+Lift: "§f[§2Lift§f] "
+UIName: "§f[§5Project§dCore§f]"
 
+#ConsoleMessages
+CommandIngame: "§cDiesen Command kannst du nur Ingame benutzen"
 #CommandDescription
 #
 #BanSystem
@@ -91,8 +95,11 @@ TellDescription: "Sende eine Privatnachrricht"
 #Other
 ClearLaggDescription: "Löscht alle Items die auf dem Boden Liegen"
 HubDescription: "Teleportiere dich zum Spawn"
+ScoreBoardDescription: "Aktiviere/Deaktiviere dein ScoreBoard"
+ServerStatsDescription: "Schaue die Serverstatistiken an"
 SetHubDescription: "Setzte den Hub"
 SeePermsDescription: "Siehe die Pluginberechtigung eines Plugins"
+StatsDescription: "Schaue deine Stats an"
 
 #TPASystem
 TPAacceptDescription: "Nehme eine Teleportanfrage an"
@@ -109,5 +116,21 @@ WarpDescription:  "Teleportiere dich zu einem Warp"
 #WeatherSystem
 WeatherDescription: "Ändere das Wetter"
 ToggleDownFallDescription: "Schalte das Wetter um"
+
+#DeathMessages
+cause_contact: "{player} hat das Leben zuende gespielt."
+cause_entity_attack: "{player} hat sich mit einem Wischmob angelegt! Geil!"
+cause_projectile: "{player} wurde der Hintern versohlt!"
+cause_suffocation: "{player} hat sich ein Sarg geschnappt und sich vergraben!"
+cause_fire: "{player} hat sich selbst gegrillt..."
+cause_fire_tick: "{player} tanzte den Feuertanz!"
+cause_lava: "{player} dachte sich so das man mit Lava spielen kann..."
+cause_drowning: "{player} wollte U-Boot Spielen! Hust Ocean-Gate"
+cause_explosion: "{player} sagte : Rico? YES! Kabooom?!"
+cause_void: "{player} erkundete das Ende der Welt..."
+cause_suicide: "{player} nahm sich das leben :c"
+cause_magic: "{player} hat sich mit einer Hexe angelegt die zu Cool war.."
+cause_fall: "{player} dachte sich... ich spring einfach"
+cause_falling_block: "{player} dachte das er sich mit einem fallenden Block anlegen kann..."
 ...
 

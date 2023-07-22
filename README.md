@@ -1,10 +1,9 @@
-# ProjectCore v.1.0.0
+# ProjectCore v.1.1.0 BETA  
 
-Discord : [Join](https://discord.gg/ju2gGzq)
+## Discord : [Join](https://discord.gg/ju2gGzq)
 
-Not stable yet
 
-# Features 
+# Features
 - [✓] LanguageSystem
 - [✓] EconomySystem whit API
 - [✓] Core Commands
@@ -19,19 +18,23 @@ Not stable yet
 - [✓] MultiLanguage Support
 - [✓] Java Sneaking
 - [✓] Everything is adjustable
+- [✓] Elevators
+- [✓] StatsSystem whit APi to Use
+- [✓] DiscordSystem whit API to Use
 
+# Bugs and Crashes
+Please make a Issue! 
 
 # Addons
 ScoreBoard Addon in Work
 Leaderboard Addon in Work
-Lifts Addon -> in Work
 
 # Important information
 The Project Core can have errors! Of course we are working to fix these errors! We will also use this project on our server!
 
-Please install InvMenu or by the Command /ec will it crash xd
+For the Command /ec you need InvMenu!
 
-# Servers 
+# Servers
 CyberCrafft
 play-cybercraft.de
 Port: 19132

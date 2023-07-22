@@ -1,0 +1,34 @@
+---
+#Setup your Discord Webhook here and edit some Messages.
+
+chatprefix: "PC"
+webhookname: "ProjectCore"
+webhookdc: "https://discordapp.com/api/webhooks/"
+webhookurl: "" #paste here your webhookurl
+
+banned_words:
+  - '@here'
+  - '@everyone'
+
+#JoinMessage
+Join: true
+JoinMSG: "** {dcprefix} : {time} : {gruppe} {player} hat den Server betreten. [{count}/{slots}] **"
+#QuitMessage
+Quit: true
+QuitMSG: "** {dcprefix} : {time} : {gruppe} {player} hat den Server verlassen. [{count}/{slots}] **"
+#KickMessage
+Kick: true
+KickMSG: "** {dcprefix} : {time} : {gruppe} {player} wurde vom Server gekickt!**"
+#DeathMessage
+Death: true
+DeathMSG: "** {dcprefix} : {time} : {gruppe} {player} starb!**"
+#ChatMessage
+Chat: true
+ChatMSG: "```{dcprefix} : {time} : {gruppe} {player} : {msg}```"
+#StartUpMessage
+Start: true
+StartMSG: "## Der Server wurde gestartet!"
+#ShutDownMessage
+Stop: true
+StopMSG: "## Der Server wurde heruntergefahren."
+...

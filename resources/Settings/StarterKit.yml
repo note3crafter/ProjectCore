@@ -1,5 +1,5 @@
 ---
-# Welcome to CoreV6 : StarterKit 3.0.0 by TheNote
+# Welcome to ProjectCore : StarterKit 4.0.1 by TheNote
 # You Can now setup more Features
 
 # set it to false to deactivate the Amor!
@@ -39,35 +39,35 @@ Slots:
     item: stone_sword
     count: 1
     name: StarterSword
-    lore: CoreV7 by TheNote
+    lore: ProjectCore by TheNote
 
   - slot: 1
     item: stone_axe
     count: 1
     name: StarterAxe
-    lore: CoreV7 by TheNote
+    lore: ProjectCore by TheNote
 
   - slot: 2
     item: stone_pickaxe
     count: 1
     name: StarterPickaxe
-    lore: CoreV7 by TheNote
+    lore: ProjectCore by TheNote
 
   - slot: 3
     item: stone_shovel
     count: 1
     name: StarterShovel
-    lore: CoreV7 by TheNote
+    lore: ProjectCore by TheNote
 
   - slot: 4
     item: cooked_porkchop
     count: 32
     name: StarterPorkchop
-    lore: CoreV7 by TheNote
+    lore: ProjectCore by TheNote
 
   - slot: 5
     item: diamond
     count: 8
     name: StarterDiamond
-    lore: CoreV7 by TheNote
+    lore: ProjectCore by TheNote
 ...
