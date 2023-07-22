@@ -34,7 +34,7 @@ class SpawnProtection implements Listener
     }
     private function checkSpawnProtection(World $world, Player $player, Vector3 $vector): bool
     {
-        if (!$player->hasPermission(Permissions::$spawnprotectionbypass)) {
+        if (!$player->hasPermission(Permissions::$spawnprotectionbypass) or !$player->getServer()->isOp($player->getName())) {
             $t = new Vector2($vector->x, $vector->z);
 
             $spawnLocation = $world->getSpawnLocation();
@@ -51,6 +51,7 @@ class SpawnProtection implements Listener
         $api = new CoreAPI();
         if($api->getConfig("NoPVP") === true) {
             if ($this->checkSpawnProtection($event->getPlayer()->getWorld(), $event->getPlayer(), $event->getBlock()->getPosition())) {
+                if($event->getPlayer()->getServer()->isOp($event->getPlayer()->getName())) return;
                 $event->cancel();
             }
         }

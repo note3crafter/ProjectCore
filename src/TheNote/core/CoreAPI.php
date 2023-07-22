@@ -14,6 +14,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
+use TheNote\core\listener\ScoreBoardListner;
 
 class CoreAPI implements Listener
 {
@@ -34,12 +35,10 @@ class CoreAPI implements Listener
     public function findPlayer(CommandSender $sender, string $playerName) : ?Player{
         $subject = $sender->getServer()->getPlayerByPrefix($playerName);
         if($subject === null){
-            //$sender->sendMessage($config->get("error") . $lang->get("playernotonline"));
             return null;
         }
         return $subject;
     }
-
     public function modules($modul) {
         $cfg = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Modules.yml", Config::YAML);
         $cfg->get($modul);
@@ -72,6 +71,7 @@ class CoreAPI implements Listener
         $money = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "Money.yml", Config::YAML);
         $money->setNested("money." . $player->getName(), $money->getNested("money." . $player->getName()) + $amount);
         $money->save();
+
     }
 
     public function removeMoney(Player $player, $amount)
@@ -205,7 +205,16 @@ class CoreAPI implements Listener
         $cfg = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Config.yml", Config::YAML);
         return $cfg->get($configdata);
     }
-
+    //GroupUserdataAPI
+    public function getUserGroup(string $name, $key) {
+        $group = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$gruppefile . $name . ".json", Config::JSON);
+        return $group->get($key);
+    }
+    public function setUserGroup(Player $player, $value, $data) {
+        $group = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$gruppefile . $player->getName() . ".json", Config::JSON);
+        $group->set($value, $data);
+        $group->save();
+    }
 
     //StatsAPI
     public function addJoinPoints(Player $player, $points)

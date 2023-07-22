@@ -17,6 +17,7 @@ use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\types\Experiments;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
+use pocketmine\utils\Config;
 use TheNote\core\commands\CreditsCommand;
 use TheNote\core\commands\essentials\AFKCommand;
 use TheNote\core\commands\essentials\BackCommand;
@@ -62,12 +63,17 @@ use TheNote\core\commands\msgsystem\ReplyCommand;
 use TheNote\core\commands\msgsystem\TellCommand;
 use TheNote\core\commands\other\ClearlaggCommand;
 use TheNote\core\commands\other\HubCommand;
+use TheNote\core\commands\other\LangCommand;
+use TheNote\core\commands\other\ScoreBoardCommand;
 use TheNote\core\commands\other\SeePermsCommand;
+use TheNote\core\commands\other\ServerStatsCommand;
 use TheNote\core\commands\other\SetHubCommand;
+use TheNote\core\commands\other\StatsCommand;
 use TheNote\core\commands\tpasystem\TpaacceptCommand;
 use TheNote\core\commands\tpasystem\TpaCommand;
 use TheNote\core\commands\tpasystem\TpadenyCommand;
 use TheNote\core\commands\tpasystem\TpahereCommand;
+use TheNote\core\commands\VersionCommand;
 use TheNote\core\commands\warpsystem\DelWarpCommand;
 use TheNote\core\commands\warpsystem\ListWarpCommand;
 use TheNote\core\commands\warpsystem\SetWarpCommand;
@@ -101,23 +107,37 @@ use TheNote\core\events\PlayerKick;
 use TheNote\core\events\PlayerMove;
 use TheNote\core\events\PlayerPick;
 use TheNote\core\events\PlayerQuit;
+use TheNote\core\events\PlayerToggleSneak;
 use TheNote\core\events\SpawnProtection;
 use TheNote\core\listener\BackListener;
 use TheNote\core\listener\BanListener;
 use TheNote\core\listener\CoreListner;
 use TheNote\core\listener\GroupListener;
 use TheNote\core\task\ParticleTask;
+use TheNote\core\utils\ConfigChecker;
+use TheNote\core\utils\DiscordAPI;
 use TheNote\core\utils\GroupsGenerate;
 use TheNote\core\world\WorldManager;
 
 class Main extends PluginBase
 {
     public static string $defaultperm = "ProjectCore";
+    public static string $version = "1.1.0";
+    public static string $dateversion = "22.07.2023";
+    public static string $mcpeversion = "1.20.12";
+    public static string $protokoll = "594";
+    public static string $plname = "ProjectCore";
+
+
     public static $instance;
     public static $godmod = [];
     public static $vanish= [];
     public static $afksesion = [];
+    /**
+     * @var array|mixed
+     */
     private WorldManager $worldManager;
+    public static $cooldown = [];
     public static function getInstance()
     {
         return self::$instance;
@@ -141,10 +161,16 @@ class Main extends PluginBase
         $this->saveResource("Settings/Config.yml");
         $this->saveResource("Settings/StarterKit.yml");
         $this->saveResource("Settings/Modules.yml");
+        $this->saveResource("Settings/Scoreboard.yml");
+        $this->saveResource("Settings/Discord.yml");
         $this->saveResource("Lang/LangCommandPrefix.yml");
         $this->saveResource("Lang/LangDEU.json");
+        $this->saveResource("Lang/LangENG.json");
+
         $g = new GroupsGenerate();
         $g->groupsgenerate();
+        //$c = new ConfigChecker(); #Comming Soon
+        //$c->cfgcheck();
         $capi = new CoreAPI();
         if ($capi->modules("WeatherSystem") === true) {
             $this->worldManager = new WorldManager();
@@ -244,7 +270,12 @@ class Main extends PluginBase
                 $this->getServer()->getCommandMap()->register("heal", new HealCommand($this));
             }
             if ($capi->modules("EnderChest") === true) {
-                $this->getServer()->getCommandMap()->register("enderchest", new EnderChestCommand($this));
+                $invmenu = $this->getServer()->getPluginManager()->getPlugin("InvMenu");
+                if ($invmenu === null) {
+                    $this->getLogger()->alert("Please install InvMenu to use the EnderChest Command!");
+                } else {
+                    $this->getServer()->getCommandMap()->register("enderchest", new EnderChestCommand($this));
+                }
             }
             if ($capi->modules("Extinguish") === true) {
                 $this->getServer()->getCommandMap()->register("extinguish", new ExtinguishCommand($this));
@@ -382,6 +413,13 @@ class Main extends PluginBase
             if ($capi->modules("SeePerms") === true) {
                 $this->getServer()->getCommandMap()->register("seeperms", new SeePermsCommand($this));
             }
+            if ($capi->modules("ScoreBoardSystem") === true) {
+                $this->getServer()->getCommandMap()->register("sb", new ScoreBoardCommand($this));
+            }
+            if($capi->modules("StatsSystem") === true) {
+                $this->getServer()->getCommandMap()->register("stats", new StatsCommand($this));
+                $this->getServer()->getCommandMap()->register("serverstats", new ServerStatsCommand($this));
+            }
         }
         if ($capi->modules("TPASystem") === true) {
             $this->getServer()->getCommandMap()->register("tpa", new TpaCommand($this));
@@ -400,7 +438,9 @@ class Main extends PluginBase
             $this->getServer()->getCommandMap()->register("toggledownfall", new ToggleDownFallCommand($this));
         }
         $this->getServer()->getCommandMap()->register("credits", new CreditsCommand($this));
-
+        Server::getInstance()->getCommandMap()->unregister(Server::getInstance()->getCommandMap()->getCommand("version"));
+        $this->getServer()->getCommandMap()->register("lang", new LangCommand($this));
+        $this->getServer()->getCommandMap()->register("version", new VersionCommand($this));
         //Task
         if($capi->modules("Particle") === true) {
             $this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 10);
@@ -419,8 +459,16 @@ class Main extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new PlayerMove($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerPick($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerQuit($this), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerToggleSneak($this), $this);
         if($capi->getConfig("SpawnProtection") === true) {
             $this->getServer()->getPluginManager()->registerEvents(new SpawnProtection($capi->getConfig("Radius")), $this);
+        }
+        if($capi->modules("DiscordSystem") === true) {
+            $dcsettings = new Config($this->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
+            if($dcsettings->get("Start") === true) {
+                $dc = new DiscordAPI();
+                $dc->sendMessage($dcsettings->get("chatprefix"), $dcsettings->get("StartMSG"));
+            }
         }
     }
     public function onDisable(): void
@@ -429,6 +477,13 @@ class Main extends PluginBase
         if ($api->getConfig("Rejoin") === true) {
             foreach ($this->getServer()->getOnlinePlayers() as $player) {
                 $player->transfer($api->getConfig("IP"), $api->getConfig("Port"));
+            }
+        }
+        if($api->modules("DiscordSystem") === true) {
+            $dcsettings = new Config($this->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
+            if($dcsettings->get("Stop") === true) {
+                $dc = new DiscordAPI();
+                $dc->sendMessage($dcsettings->get("chatprefix"), $dcsettings->get("StopMSG"));
             }
         }
     }
@@ -440,7 +495,7 @@ class Main extends PluginBase
             "╔═════╗ ╔═════╗ ╔═════╗     ╔═╗ ╔═════╗ ╔═════╗ ╔═════╗      ╔═════╗ ╔═════╗ ╔═════╗ ╔═════╗\n" .
             "║ ╔═╗ ║ ║ ╔═╗ ║ ║ ╔═╗ ║     ║ ║ ║ ╔═══╝ ║ ╔═══╝ ╚═╗ ╔═╝      ║ ╔═══╝ ║ ╔═╗ ║ ║ ╔═╗ ║ ║ ╔═══╝\n" .
             "║ ╚═╝ ║ ║ ╚═╝ ║ ║ ║ ║ ║     ║ ║ ║ ╚══╗  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╚═╝ ║ ║ ╚══╗ \n" .
-            "║ ╔═══╝ ║ ╔╗ ╔╝ ║ ║ ║ ║ ╔═╗ ║ ║ ║ ╔══╝  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╔╗ ╔╝ ║ ╔══╝\n" .
+            "║ ╔═══╝ ║ ╔╗ ╔╝ ║ ║ ║ ║ ╔═╗ ║ ║ ║ ╔══╝  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╔╗ ╔╝ ║ ╔══╝ \n" .
             "║ ║     ║ ║╚╗╚╗ ║ ╚═╝ ║ ║ ╚═╝ ║ ║ ╚═══╗ ║ ╚═══╗   ║ ║        ║ ╚═══╗ ║ ╚═╝ ║ ║ ║╚╗╚╗ ║ ╚═══╗\n" .
             "╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝\n" .
             "Easy to Use! Written in Love! Project Core by TheNote/RetroRolf/Rudolf2000/note3crafter\n" .

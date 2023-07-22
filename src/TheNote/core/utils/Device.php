@@ -8,29 +8,38 @@
 //  ╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝
 //  Easy to Use! Written in Love! Project Core by TheNote\RetroRolf\Rudolf2000\note3crafter
 
-namespace TheNote\core\events;
+namespace TheNote\core\utils;
 
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerInteractEvent;
-use TheNote\core\CoreAPI;
-use TheNote\core\Main;
+use pocketmine\network\mcpe\protocol\types\DeviceOS;
+use pocketmine\player\Player;
 
-class PlayerInteract implements Listener
+class Device
 {
-    public Main $plugin;
+    public function getPlayerPlatform(Player $player): string
+    {
+        $extraData = $player->getPlayerInfo()->getExtraData();
 
-    public function __construct(Main $plugin)
-    {
-        $this->plugin = $plugin;
-    }
-    public function onInteract(PlayerInteractEvent $event)
-    {
-        $player = $event->getPlayer();
-        $name = $player->getName();
-        $api = new CoreAPI();
-        if($api->modules("StatsSystem") === true) {
-            $api->addInteractPoints($player, 1);
-            $api->addServerStats("interact", 1);
+        if ($extraData["DeviceOS"] === DeviceOS::ANDROID && $extraData["DeviceModel"] === "") {
+            return "Linux";
         }
+
+        return match ($extraData["DeviceOS"]) {
+            DeviceOS::ANDROID => "Android",
+            DeviceOS::IOS => "iOS",
+            DeviceOS::OSX => "macOS",
+            DeviceOS::AMAZON => "FireOS",
+            DeviceOS::GEAR_VR => "Gear VR",
+            DeviceOS::HOLOLENS => "Hololens",
+            DeviceOS::WINDOWS_10 => "Windows",
+            DeviceOS::WIN32 => "Windows 7 (Edu)",
+            DeviceOS::DEDICATED => "Dedicated",
+            DeviceOS::TVOS => "TV OS",
+            DeviceOS::PLAYSTATION => "PlayStation",
+            DeviceOS::NINTENDO => "Nintendo Switch",
+            DeviceOS::XBOX => "Xbox",
+            DeviceOS::WINDOWS_PHONE => "Windows Phone",
+            default => "Unknown"
+        };
     }
+
 }

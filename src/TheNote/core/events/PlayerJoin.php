@@ -10,12 +10,16 @@
 
 namespace TheNote\core\events;
 
+use DateTime;
+use DateTimeZone;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\item\StringToItemParser;
 use pocketmine\utils\Config;
 use TheNote\core\CoreAPI;
+use TheNote\core\listener\ScoreBoardListner;
 use TheNote\core\Main;
+use TheNote\core\utils\DiscordAPI;
 use TheNote\core\utils\Permissions;
 
 class PlayerJoin implements Listener
@@ -35,7 +39,6 @@ class PlayerJoin implements Listener
         $fj = date('d.m.Y H:I') . date_default_timezone_set("Europe/Berlin");
 
         //Configs
-        $gruppe = new Config($this->plugin->getDataFolder() . CoreAPI::$gruppefile . $name . ".json", Config::JSON);
         $log = new Config($this->plugin->getDataFolder() . CoreAPI::$logdatafile . $name . ".json", Config::JSON);
         $stats = new Config($this->plugin->getDataFolder() . CoreAPI::$statsfile . $name . ".json", Config::JSON);
         $cfg = new Config($this->plugin->getDataFolder() . CoreAPI::$settings . "StarterKit.yml", Config::YAML, array());
@@ -45,8 +48,10 @@ class PlayerJoin implements Listener
         $events = new EventsListener();
 
         //Stats
-        $api->addJoinPoints($player, 1);
-        $api->addServerStats("joins", 1);
+        if($api->modules("StatsSystem") === true) {
+            $api->addJoinPoints($player, 1);
+            $api->addServerStats("joins", 1);
+        }
 
         //Weiteres
         $log->set("Name", $player->getName());
@@ -69,7 +74,7 @@ class PlayerJoin implements Listener
         }
 
         //Spieler Erster Join
-        if (!$player->hasPlayedBefore()) {
+        if ($api->getUser($name, "register") == null or false) {
             //StarterKit
             $player = $event->getPlayer();
             $ainv = $player->getArmorInventory();
@@ -110,36 +115,44 @@ class PlayerJoin implements Listener
                 }
             }
             //Groupsystem
-            $defaultgroup = $groups->get("DefaultGroup");
-            $player = $event->getPlayer();
-            $name = $player->getName();
-            if (!$playerdata->exists($name)) {
+            if ($api->modules("GroupSystem") === true) {
+
+                $defaultgroup = $groups->get("DefaultGroup");
                 $groupprefix = $groups->getNested("Groups." . $defaultgroup . ".groupprefix");
                 $groupdisplay = $groups->getNested("Groups." . $defaultgroup . ".displayname");
-                $playerdata->setNested($name . ".groupprefix", $groupprefix);
-                $playerdata->setNested($name . ".group", $defaultgroup);
-                $playerdata->setNested($name . ",displayname" , $groupdisplay);
-                $perms = $playerdata->getNested("{$name}.permissions", []);
-                $perms[] = Permissions::$defaultperm;
-                $playerdata->setNested("{$name}.permissions", $perms);
-                $playerdata->save();
-            }
-            $playergroup = $playerdata->getNested($name . ".group");
-            $nametag = str_replace("{name}", $player->getName(), $groups->getNested("Groups.{$playergroup}.groupprefix"));
-            $displayname = str_replace("{name}", $player->getName(), $groups->getNested("Groups.{$playerdata->getNested($name.".group")}.displayname"));
-            $player->setNameTag($nametag);
-            $player->setDisplayName($displayname);
+                if (!$playerdata->exists($name)) {
+                    $playerdata->setNested($name . ".groupprefix", $groupprefix);
+                    $playerdata->setNested($name . ".group", $defaultgroup);
+                    $playerdata->setNested($name . ",displayname", $groupdisplay);
+                    $perms = $playerdata->getNested("{$name}.permissions", []);
+                    $perms[] = Permissions::$defaultperm;
+                    $playerdata->setNested("{$name}.permissions", $perms);
+                    $playerdata->save();
+                }
+                $api->setUserGroup($player, "GroupPrefix", $groupprefix);
+                $api->setUserGroup($player, "Group", $defaultgroup);
+                $api->setUserGroup($player, "Nick", false);
+                $api->setUserGroup($player, "NickPlayer", false);
+                $api->setUserGroup($player, "Nickname", $player->getName());
+                $playergroup = $playerdata->getNested($name . ".group");
+                $nametag = str_replace("{name}", $player->getName(), $groups->getNested("Groups.{$playergroup}.groupprefix"));
+                $displayname = str_replace("{name}", $player->getName(), $groups->getNested("Groups.{$playerdata->getNested($name.".group")}.displayname"));
+                $player->setNameTag($nametag);
+                $player->setDisplayName($displayname);
 
-            //Group Perms
-            $permissionlist = (array)$groups->getNested("Groups." . $playergroup . ".permissions", []);
-            foreach ($permissionlist as $name => $data) {
-                $player->addAttachment($this->plugin)->setPermission($data, true);
+                //Group Perms
+                $permissionlist = (array)$groups->getNested("Groups." . $playergroup . ".permissions", []);
+                foreach ($permissionlist as $name => $data) {
+                    $player->addAttachment($this->plugin)->setPermission($data, true);
+                }
             }
 
             //Economy
-            $amount = $api->getConfig("DefaultMoney");
-            if ($api->getMoney($name) == null) {
-                $api->setMoney($player, $amount);
+            if ($api->modules("EconomySystem") === true) {
+                $amount = $api->getConfig("DefaultMoney");
+                if ($api->getMoney($name) == null) {
+                    $api->setMoney($player, $amount);
+                }
             }
             //Register
             $api->addServerStats("Users", 1);
@@ -148,14 +161,9 @@ class PlayerJoin implements Listener
             $log->set("first-XboxID", $player->getXuid());
             $log->set("first-uuid", $player->getUniqueId());
             $log->save();
-            $gruppe->set("Nick", false);
-            $gruppe->set("NickPlayer", false);
-            $gruppe->set("Nickname", $player->getName());
-            $gruppe->set("ClanStatus", false);
-            $gruppe->set("Clan", "No Clan");
-            $gruppe->save();
+
             $api->addMarry($player, "partner", "No Partner");
-            $api->addMarry($player, "application", "Keine Anfrage");
+            $api->addMarry($player, "application", "No Inquiry");
             $api->addMarry($player, "status", "Single");
             $api->addMarry($player, "hits", 0);
             $api->addMarry($player, "divorces", 0);
@@ -176,8 +184,13 @@ class PlayerJoin implements Listener
             $api->setUser($player,"nodm", false);
             $api->setUser($player,"heistatus", false);
             $api->setUser($player,"starterkit", true);
-            $api->setUser($player,"registermarry", true);
             $api->setUser($player, "language", "DEU");
+            $api->setUser($player, "sb", true);
+            $api->setBan($player,"bannedby", "");
+            $api->setBan($player,"banreason", "");
+            $api->setBan($player,"banid", "");
+            $api->setBan($player,"bantime", "");
+            $api->setBan($player,"ban", false);
             $stats->set("joins", 0);
             $stats->set("break", 0);
             $stats->set("place", 0);
@@ -193,13 +206,14 @@ class PlayerJoin implements Listener
             $stats->set("movefly", 0);
             $stats->set("movewalk", 0);
             $stats->save();
+            $api->setUserGroup($player, "Nickname", $player->getName());
         }
 
         //JoinMessages
         $all = $this->plugin->getServer()->getOnlinePlayers();
         $prefix = $playerdata->getNested($player->getName() . ".groupprefix");
         $slots = $this->plugin->getServer()->getMaxPlayers();
-        $spielername = $gruppe->get("Nickname");
+        $spielername = $api->getUserGroup($name, "Nickname");
         if($api->getBan($name,"ban") === true) {
             $event->setJoinMessage("");
             return;
@@ -214,7 +228,7 @@ class PlayerJoin implements Listener
             $player->sendTip($tip);
         }
         if ($api->getConfig("JoinMessage") === true) { //Joinmessage
-            if ($gruppe->get("Nickname") === null) {
+            if ($spielername == null) {
                 $stp1 = str_replace("{player}", $player->getName(), $api->getConfig("JoinMSG"));
             } else {
                 $stp1 = str_replace("{player}", $spielername, $api->getConfig("JoinMSG"));
@@ -225,6 +239,37 @@ class PlayerJoin implements Listener
             $event->setJoinMessage($joinmsg);
         } else {
             $event->setJoinMessage("");
+        }
+        //Discord
+        if($api->modules("DiscordSystem") === true) {
+            $dcsettings = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
+            $chatprefix = $dcsettings->get("chatprefix");
+            $group = $playerdata->getNested($player->getName() . ".group");
+            $time = new DateTime("now", new DateTimeZone("Europe/Berlin"));
+            if($dcsettings->get("Join") === true) {
+                $dc = new DiscordAPI();
+                if($api->modules("GroupSystem") === true) {
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("JoinMSG"));
+                    $stp2 = str_replace("{count}", count($all), $stp1);
+                    $stp3 = str_replace("{slots}", $slots, $stp2);
+                    $player = str_replace("{gruppe}", $group, $stp3);
+                    $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
+                } else {
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("JoinMSG"));
+                    $stp2 = str_replace("{count}", count($all), $stp1);
+                    $player = str_replace("{slots}", $slots, $stp2);
+                    $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
+                }
+                $dc->sendMessage($player, $msg);
+            }
+        }
+
+        //Scoreboard
+        if($api->modules("ScoreBoardSystem") === true) {
+            if($api->getUser($name, "sb") === true){
+                $sb = new ScoreBoardListner();
+                $sb->scoreboard();
+            }
         }
     }
 }

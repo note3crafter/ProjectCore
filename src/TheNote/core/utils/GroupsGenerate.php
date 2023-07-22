@@ -1,5 +1,13 @@
 <?php
 
+//  ╔═════╗ ╔═════╗ ╔═════╗     ╔═╗ ╔═════╗ ╔═════╗ ╔═════╗      ╔═════╗ ╔═════╗ ╔═════╗ ╔═════╗
+//  ║ ╔═╗ ║ ║ ╔═╗ ║ ║ ╔═╗ ║     ║ ║ ║ ╔═══╝ ║ ╔═══╝ ╚═╗ ╔═╝      ║ ╔═══╝ ║ ╔═╗ ║ ║ ╔═╗ ║ ║ ╔═══╝
+//  ║ ╚═╝ ║ ║ ╚═╝ ║ ║ ║ ║ ║     ║ ║ ║ ╚══╗  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╚═╝ ║ ║ ╚══╗
+//  ║ ╔═══╝ ║ ╔╗ ╔╝ ║ ║ ║ ║ ╔═╗ ║ ║ ║ ╔══╝  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╔╗ ╔╝ ║ ╔══╝
+//  ║ ║     ║ ║╚╗╚╗ ║ ╚═╝ ║ ║ ╚═╝ ║ ║ ╚═══╗ ║ ╚═══╗   ║ ║        ║ ╚═══╗ ║ ╚═╝ ║ ║ ║╚╗╚╗ ║ ╚═══╗
+//  ╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝
+//  Easy to Use! Written in Love! Project Core by TheNote\RetroRolf\Rudolf2000\note3crafter
+
 namespace TheNote\core\utils;
 
 use pocketmine\utils\Config;
@@ -12,16 +20,16 @@ class GroupsGenerate
     {
         if (!file_exists(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "groups.yml")) {
             $groups = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "groups.yml", Config::YAML);
-            $groups->set("DefaultGroup", "normal");
+            $groups->set("DefaultGroup", "player");
 
-            $groups->setNested("Groups.normal.groupprefix", "§f[§ePlayer§f]§7");
-            $groups->setNested("Groups.normal.format1", "§f[§ePlayer§f] §7{name} §r§f|§7 {msg}");
-            $groups->setNested("Groups.normal.format2", "§f[§ePlayer§f] {clan} §7{name} §r§f|§7 {msg}");
-            $groups->setNested("Groups.normal.format3", "§f[§ePlayer§f] {heirat} §7{name} §r§f|§7 {msg}");
-            $groups->setNested("Groups.normal.format4", "§f[§ePlayer§f] {heirat} {clan} §7{name} §r§f|§7 {msg}");
-            $groups->setNested("Groups.normal.nametag", "§f[§ePlayer§f] §7{name}");
-            $groups->setNested("Groups.normal.displayname", "§eP§f:§7{name}");
-            $groups->setNested("Groups.normal.permissions", [Permissions::$defaultperm]);
+            $groups->setNested("Groups.player.groupprefix", "§f[§ePlayer§f]§7");
+            $groups->setNested("Groups.player.format1", "§f[§ePlayer§f] §7{name} §r§f|§7 {msg}");
+            $groups->setNested("Groups.player.format2", "§f[§ePlayer§f] {clan} §7{name} §r§f|§7 {msg}");
+            $groups->setNested("Groups.player.format3", "§f[§ePlayer§f] {heirat} §7{name} §r§f|§7 {msg}");
+            $groups->setNested("Groups.player.format4", "§f[§ePlayer§f] {heirat} {clan} §7{name} §r§f|§7 {msg}");
+            $groups->setNested("Groups.player.nametag", "§f[§ePlayer§f] §7{name}");
+            $groups->setNested("Groups.player.displayname", "§eP§f:§7{name}");
+            $groups->setNested("Groups.player.permissions", [Permissions::$defaultperm]);
 
             $groups->setNested("Groups.premium.groupprefix", "§f[§6Premium§f]§6");
             $groups->setNested("Groups.premium.format1", "§f[§6Premium§f] §6{name} §r§f|§6 {msg}");

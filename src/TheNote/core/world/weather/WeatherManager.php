@@ -13,6 +13,9 @@ namespace TheNote\core\world\weather;
 use pocketmine\block\BlockTypeIds;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\data\bedrock\BiomeIds;
+use pocketmine\entity\Entity;
+use pocketmine\network\mcpe\protocol\AddActorPacket;
+use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\utils\Config;
 use pocketmine\world\Position;
 //use TheNote\core\entity\object\LightningBoltEntity;
@@ -63,7 +66,9 @@ class WeatherManager
                             $location = $random->getLocation();
                             $location->x += mt_rand(0, 15);
                             $location->y += mt_rand(0, 15);
-                            //$entity = new LightningBoltEntity($location);
+                            $light = AddActorPacket::create(($entityId = Entity::nextRuntimeId()), $entityId, "minecraft:lightning_bolt", new Vector3(($pos = $player->getPosition())->getX(), $pos->getY(), $pos->getZ()), null, 0, 0, 0.0, 0.0, [], [], new PropertySyncData([], []), []);
+
+                            //$entity = new Lightn($location);
                             //$entity->spawnToAll();
                         }
                     }

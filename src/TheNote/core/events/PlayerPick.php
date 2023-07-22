@@ -1,5 +1,13 @@
 <?php
 
+//  ╔═════╗ ╔═════╗ ╔═════╗     ╔═╗ ╔═════╗ ╔═════╗ ╔═════╗      ╔═════╗ ╔═════╗ ╔═════╗ ╔═════╗
+//  ║ ╔═╗ ║ ║ ╔═╗ ║ ║ ╔═╗ ║     ║ ║ ║ ╔═══╝ ║ ╔═══╝ ╚═╗ ╔═╝      ║ ╔═══╝ ║ ╔═╗ ║ ║ ╔═╗ ║ ║ ╔═══╝
+//  ║ ╚═╝ ║ ║ ╚═╝ ║ ║ ║ ║ ║     ║ ║ ║ ╚══╗  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╚═╝ ║ ║ ╚══╗
+//  ║ ╔═══╝ ║ ╔╗ ╔╝ ║ ║ ║ ║ ╔═╗ ║ ║ ║ ╔══╝  ║ ║       ║ ║        ║ ║     ║ ║ ║ ║ ║ ╔╗ ╔╝ ║ ╔══╝
+//  ║ ║     ║ ║╚╗╚╗ ║ ╚═╝ ║ ║ ╚═╝ ║ ║ ╚═══╗ ║ ╚═══╗   ║ ║        ║ ╚═══╗ ║ ╚═╝ ║ ║ ║╚╗╚╗ ║ ╚═══╗
+//  ╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝
+//  Easy to Use! Written in Love! Project Core by TheNote\RetroRolf\Rudolf2000\note3crafter
+
 namespace TheNote\core\events;
 
 use pocketmine\event\entity\EntityItemPickupEvent;
@@ -21,16 +29,20 @@ class PlayerPick implements Listener
         $player = $event->getPlayer();
         $name = $player->getName();
         $api = new CoreAPI();
-        $api->addPickPoints($player, 1);
-        $api->addServerStats("pick", 1);
+        if($api->modules("StatsSystem") === true) {
+            $api->addPickPoints($player, 1);
+            $api->addServerStats("pick", 1);
+        }
     }
 
     public function onPickItem(EntityItemPickupEvent $event)
     {
-        foreach ($this->plugin->getServer()->getOnlinePlayers() as $pl) {
-            $api = new CoreAPI();
-            $api->addPickPoints($pl, 1);
-            $api->addServerStats("pick", 1);
+        $api = new CoreAPI();
+        if($api->modules("StatsSystem") === true) {
+            foreach ($this->plugin->getServer()->getOnlinePlayers() as $pl) {
+                $api->addPickPoints($pl, 1);
+                $api->addServerStats("pick", 1);
+            }
         }
     }
 }

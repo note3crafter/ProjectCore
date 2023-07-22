@@ -80,6 +80,12 @@ class BanListener implements Listener
                 } elseif ($banids == 10) {
                     $player->kick("§cDu wurdest Gebannt! §dVon§f: §e$banby\n§cGrund§f: §dAußnutzung von Bugs\n§cFür§f: §e$hour Stunden und $minute Minuten!", false);
                 }
+            } else {
+                $api->setBan($player,"bannedby", "");
+                $api->setBan($player,"banreason", "");
+                $api->setBan($player,"banid", "");
+                $api->setBan($player,"bantime", "");
+                $api->setBan($player,"ban", false);
             }
         }
         return true;

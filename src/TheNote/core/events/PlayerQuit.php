@@ -10,11 +10,16 @@
 
 namespace TheNote\core\events;
 
+use DateTime;
+use DateTimeZone;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\scheduler\Task;
 use pocketmine\utils\Config;
 use TheNote\core\CoreAPI;
+use TheNote\core\listener\ScoreBoardListner;
 use TheNote\core\Main;
+use TheNote\core\utils\DiscordAPI;
 
 class PlayerQuit implements Listener
 {
@@ -42,8 +47,8 @@ class PlayerQuit implements Listener
             $event->setQuitMessage("");
             return;
         } elseif ($api->getConfig("QuitMessage") === true) {
-            $stp1 = str_replace("{player}", $spielername, $api->getConfig("Quitmsg"));
-            $stp2 = str_replace("{count}", count($all), $stp1);
+            $stp1 = str_replace("{player}", $spielername, $api->getConfig("QuitMSG"));
+            $stp2 = str_replace("{count}", count($all) - 1, $stp1);
             $stp3 = str_replace("{slots}", $slots, $stp2);
             $quitmsg = str_replace("{prefix}", $prefix, $stp3);
             $event->setQuitMessage($quitmsg);
@@ -52,5 +57,50 @@ class PlayerQuit implements Listener
         }
         $api->setUser($player, "afkmove", false);
         $api->setUser($player, "afk", false);
+        //Scoreboard
+        if($api->modules("ScoreBoardSystem") === true) {
+            if ($api->getUser($name, "sb") === true) {
+                Main::getInstance()->getScheduler()->scheduleRepeatingTask(new class extends Task {
+                    private $timer = 6;
+                    private $i = 0;
+                    public function onRun(): void {
+                        $sb = new ScoreBoardListner();
+                        $this->timer--;
+                        if ($this->timer >= 3) {
+                            if ($this->i == 2) {
+                                $sb->scoreboard();
+                            }
+                            if ($this->i == 5) {
+                                $this->i = 0;
+                            }
+                            $this->i++;
+                        }
+                    }
+                }, 20);
+            }
+        }
+        //Discord
+        if($api->modules("DiscordSystem") === true) {
+            $dcsettings = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
+            $chatprefix = $dcsettings->get("chatprefix");
+            $time = new DateTime("now", new DateTimeZone("Europe/Berlin"));
+            $group = $playerdata->getNested($player->getName() . ".group");
+            if($dcsettings->get("Quit") === true) {
+                $dc = new DiscordAPI();
+                if($api->modules("GroupSystem") === true) {
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("QuitMSG"));
+                    $stp2 = str_replace("{count}", count($all) - 1, $stp1);
+                    $stp3 = str_replace("{slots}", $slots, $stp2);
+                    $player = str_replace("{gruppe}", $group, $stp3);
+                    $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
+                } else {
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("KickMSG"));
+                    $stp2 = str_replace("{count}", count($all) - 1, $stp1);
+                    $player = str_replace("{slots}", $slots, $stp2);
+                    $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
+                }
+                $dc->sendMessage($player, $msg);
+            }
+        }
     }
 }
