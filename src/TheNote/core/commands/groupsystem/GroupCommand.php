@@ -14,6 +14,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 use TheNote\core\CoreAPI;
+use TheNote\core\listener\ScoreBoardListner;
 use TheNote\core\Main;
 use TheNote\core\utils\Permissions;
 
@@ -53,7 +54,7 @@ class GroupCommand extends Command
             $sender->sendMessage("§6/group listuserperm {groupname}");
             return false;
         }
-        if ($sender->hasPermission("core.command.group")) {
+        if ($sender->hasPermission(Permissions::$group)) {
             if ($args[0] == "add") {
                 if (empty($args[1])) {
                     $sender->sendMessage($api->getCommandPrefix("Info") . $api->getLang($sender->getName(), "GroupUsageAdd"));
@@ -178,6 +179,8 @@ class GroupCommand extends Command
                 $playerdata->setNested($name . ".groupprefix", $groupprefix );
                 $playerdata->setNested($name . ".group", $group);
                 $playerdata->save();
+                $api->setUserGroup($target, "GroupPrefix", $groupprefix);
+                $api->setUserGroup($target, "Group", $group);
 
                 $playergroup = $playerdata->getNested($name.".group");
                 $nametag = str_replace("{name}", $target->getName(), $groups->getNested("Groups.{$playergroup}.nametag"));
@@ -193,6 +196,10 @@ class GroupCommand extends Command
                 $message = str_replace("{group}" , $group, $api->getLang($sender->getName(),"GroupSetSucces"));
                 $message1 = str_replace("{player}" , $target->getName(), $message);
                 $sender->sendMessage($api->getCommandPrefix("Group") . $message1);
+                if($api->getUser($sender->getName(), "sb") === true){
+                    $sb = new ScoreBoardListner();
+                    $sb->scoreboard();
+                }
             }
             if ($args[0] == "adduserperm") {
                 if (empty($args[1])) {

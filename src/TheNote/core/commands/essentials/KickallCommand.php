@@ -32,7 +32,7 @@ class KickallCommand extends Command
     {
         $api = new CoreAPI();
         if (!$this->testPermission($sender)) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "NoPermission"));
+            $sender->sendMessage($api->getCommandPrefix("Info") . $api->getLang($sender->getName(),"NoPermission"));
             return false;
         }
         if (empty($args[0])) {

@@ -36,7 +36,7 @@ class WarpCommand extends Command
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"commandingame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (empty($args[0])) {

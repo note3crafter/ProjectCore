@@ -36,7 +36,7 @@ class SetWarpCommand extends Command
         $warp = new Config($this->plugin->getDataFolder() . CoreAPI::$cloud . "warps.json", Config::JSON);
 
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (!$this->testPermission($sender)) {

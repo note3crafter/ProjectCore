@@ -35,11 +35,11 @@ class AdminItemsCommand extends Command implements Listener
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"commandingame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (!$this->testPermission($sender)) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"nopermission"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"NoPermission"));
             return false;
         }
         if (empty($args[0])) {

@@ -38,7 +38,7 @@ class SeePermsCommand extends Command
     {
         $api = new CoreAPI();
         if (!$this->testPermission($sender)) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (!isset($args[0]) || count($args) > 2) {

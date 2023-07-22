@@ -33,7 +33,7 @@ class ListWarpCommand extends Command
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         $warp = new Config($this->plugin->getDataFolder() . CoreAPI::$cloud . "warps.json", Config::JSON);
@@ -43,7 +43,7 @@ class ListWarpCommand extends Command
             if ($warps === null) {
                 $sender->sendMessage($api->getCommandPrefix("Warp" . $api->getLang($sender->getName(),"ListWarpError")));
             } else {
-                $sender->sendMessage("§e-" . $key);
+                $sender->sendMessage("§e- " . $key);
             }
         }
         return true;

@@ -33,7 +33,7 @@ class ListHomeCommand extends Command
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         $home = new Config($this->plugin->getDataFolder() . CoreAPI::$homefile . $sender->getName() . ".json", Config::JSON);
@@ -42,8 +42,8 @@ class ListHomeCommand extends Command
             if ($homes === null) {
                 $sender->sendMessage($api->getCommandPrefix("Home") . $api->getLang($sender->getName(),"ListHomeError"));
             } else {
-                $sender->sendMessage($api->getCommandPrefix("Home") . $api->getLang($sender->getName(),str_replace("{key}", $key, "ListHome")));
-                $sender->sendMessage($api->getLang($sender->getName(), str_replace("{key}", $key, "ListHomeKey")));
+                $sender->sendMessage($api->getCommandPrefix("Home") . $api->getLang($sender->getName(),"ListHome"));
+                $sender->sendMessage("§e- " . $key);
             }
         }
         return true;

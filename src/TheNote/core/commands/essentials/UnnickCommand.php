@@ -33,32 +33,29 @@ class UnnickCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool
     {
         $api = new CoreAPI();
+        $name = $sender->getName();
         $playerdata = new Config($this->plugin->getDataFolder() . CoreAPI::$cloud . "players.yml", Config::YAML);
         $groups = new Config($this->plugin->getDataFolder(). CoreAPI::$cloud . "groups.yml", Config::YAML);
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"commandingame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (!$this->testPermission($sender)) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"nopermission"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"NoPermission"));
             return false;
         }
-        $pf = new Config($this->plugin->getDataFolder() . CoreAPI::$gruppefile . $sender->getName() . ".json", Config::JSON);
-        if ($pf->get("Nick") === false) {
+        if ($api->getUserGroup($name,"Nick") === false) {
             $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"UnnickError"));
             return true;
         }
-        if ($pf->get("Nick") === true) {
+        if ($api->getUserGroup($name,"Nick") === true) {
             $sender->sendMessage($api->getCommandPrefix("Prefix") . $api->getLang($sender->getName(),"UnnickSucces"));
-            $pf->set("Nick", false);
-            $pf->set("Nickplayer", false);
-            $pf->set("nicket". false);
-            $pf->set("Nickname", $sender->getName());
-            $pf->save();
+            $api->setUserGroup($sender,"Nick", false);
+            $api->setUserGroup($sender,"Nickname", $sender->getName());
             $name = $sender->getName();
             $playergroup = $playerdata->getNested($name . ".group");
-            $nametag = str_replace("{name}", $pf->get("Nickname"), $groups->getNested("Groups.{$playergroup}.nametag"));
-            $displayname = str_replace("{name}", $pf->get("Nickname"), $groups->getNested("Groups.{$playerdata->getNested($name.".group")}.displayname"));
+            $nametag = str_replace("{name}", $api->getUserGroup($name,"Nickname"), $groups->getNested("Groups.{$playergroup}.nametag"));
+            $displayname = str_replace("{name}",$api->getUserGroup($name,"Nickname"), $groups->getNested("Groups.{$playerdata->getNested($name.".group")}.displayname"));
             $sender->setDisplayName($displayname);
             $sender->setNameTag($nametag);
         }

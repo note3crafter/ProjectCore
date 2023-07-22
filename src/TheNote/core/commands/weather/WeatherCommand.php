@@ -35,7 +35,7 @@ class WeatherCommand extends Command
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return;
         }
         if (!$this->testPermission($sender)) {

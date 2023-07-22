@@ -14,6 +14,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use TheNote\core\CoreAPI;
+use TheNote\core\listener\ScoreBoardListner;
 use TheNote\core\Main;
 use TheNote\core\utils\Permissions;
 
@@ -33,7 +34,7 @@ class PayallCommand extends Command
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (!$this->testPermission($sender)) {
@@ -56,6 +57,10 @@ class PayallCommand extends Command
                     $message1 = str_replace("{money}", $args[0], $message);
                     $message2 = str_replace("{amount}", $amount, $message1);
                     $this->plugin->getServer()->broadcastMessage($api->getCommandPrefix("Money") . $message2);
+                    if($api->getUser($sender->getName(), "sb") === true){
+                        $sb = new ScoreBoardListner();
+                        $sb->scoreboard();
+                    }
                 } else {
                     $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"PayAllNoMoney"));
                 }

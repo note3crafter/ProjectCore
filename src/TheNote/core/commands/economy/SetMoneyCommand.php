@@ -33,7 +33,7 @@ class SetMoneyCommand extends Command implements Listener
     {
         $api = new CoreAPI();
         if (!$this->testPermission($sender)) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "NoPermission"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if(!isset($args[0])) {

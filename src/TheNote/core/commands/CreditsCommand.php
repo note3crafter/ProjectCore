@@ -30,7 +30,7 @@ class CreditsCommand extends Command
         $sender->sendMessage("=====§f[§5Project§dCore§f]=====");
         $sender->sendMessage("§dA Core Plugin by TheNote");
         $sender->sendMessage("§dEasy to use!");
-        $sender->sendMessage("§dHelpers §f: §eGamerMJayy, Crasher508, MDevPmmP, LookItsAku");
+        $sender->sendMessage("§dHelpers §f: §eGamerMJayy, Crasher508");
         $sender->sendMessage("§dProject Core is a new Version from CoreV5/6/7!");
         return true;
     }

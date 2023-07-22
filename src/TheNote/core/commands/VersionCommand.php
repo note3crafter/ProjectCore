@@ -8,37 +8,34 @@
 //  ╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝
 //  Easy to Use! Written in Love! Project Core by TheNote\RetroRolf\Rudolf2000\note3crafter
 
-namespace TheNote\core\commands\economy;
+namespace TheNote\core\commands;
 
-use pocketmine\event\Listener;
-use pocketmine\player\Player;
-use TheNote\core\CoreAPI;
-use TheNote\core\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use TheNote\core\utils\Permissions;
+use TheNote\core\CoreAPI;
+use TheNote\core\Main;
 
-class MyMoneyCommand extends Command implements Listener
+class VersionCommand extends Command
 {
+
     private Main $plugin;
 
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
         $api = new CoreAPI();
-        parent::__construct("mymoney", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("MyMoneyDescription"), "/mymoney");
-        $this->setPermission(Permissions::$defaultperm);
+        parent::__construct("version", $api->getCommandPrefix("Prefix") . "§6See the Serverversion", "/version", ["ver"]);
+        $this->setPermission(Main::$defaultperm);
     }
-
-    public function execute(CommandSender $sender, string $commandLabel, array $args): bool
+    public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         $api = new CoreAPI();
-        if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
-            return false;
-        }
-        $money = $api->getMoney($sender->getName());
-        $sender->sendMessage($api->getCommandPrefix("Money") . str_replace("{money}", $money, $api->getLang($sender->getName() ,"MyMoney")));
-        return true;
+        $v = Main::$version;
+        $p = Main::$protokoll;
+        $mcpe = Main::$mcpeversion;
+        $date = Main::$dateversion;
+        $pmmpv = $this->plugin->getServer()->getPocketMineVersion();
+        $sender->sendMessage($api->getCommandPrefix("Info"). "This Server is running on PocketMine-MP $pmmpv whit ProjectCore version : $v for Minecraft: Bedrock Edition v$mcpe (Protokollversion $p) State : $date ");
+        return false;
     }
 }

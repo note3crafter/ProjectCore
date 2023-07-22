@@ -35,11 +35,11 @@ class ToggleDownFallCommand extends Command
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return;
         }
         if (!$this->testPermission($sender)) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"NoPermission"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "NoPermission"));
             return;
         }
         foreach (Server::getInstance()->getWorldManager()->getWorlds() as $world) {
@@ -50,7 +50,7 @@ class ToggleDownFallCommand extends Command
                     $weather->startStorm();
                 }
             }
-        $sender->sendMessage($api->getCommandPrefix("Prefix") . $api->getLang($sender->getName(), "ToggleDownfall"));
         }
+        $sender->sendMessage($api->getCommandPrefix("Prefix") . $api->getLang($sender->getName(), "ToggleDownfall"));
     }
 }

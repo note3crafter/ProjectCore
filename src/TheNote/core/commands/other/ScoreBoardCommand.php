@@ -8,25 +8,27 @@
 //  ╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝
 //  Easy to Use! Written in Love! Project Core by TheNote\RetroRolf\Rudolf2000\note3crafter
 
-namespace TheNote\core\commands\economy;
+namespace TheNote\core\commands\other;
 
-use pocketmine\event\Listener;
-use pocketmine\player\Player;
-use TheNote\core\CoreAPI;
-use TheNote\core\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
+use pocketmine\player\Player;
+use TheNote\core\CoreAPI;
+use TheNote\core\listener\ScoreBoardListner;
+use TheNote\core\Main;
 use TheNote\core\utils\Permissions;
 
-class MyMoneyCommand extends Command implements Listener
+class ScoreBoardCommand extends Command
 {
+
     private Main $plugin;
 
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
         $api = new CoreAPI();
-        parent::__construct("mymoney", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("MyMoneyDescription"), "/mymoney");
+        parent::__construct("sb", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("ScoreBoardDescription"), "/sb", ["scoreboard"]);
         $this->setPermission(Permissions::$defaultperm);
     }
 
@@ -37,8 +39,28 @@ class MyMoneyCommand extends Command implements Listener
             $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
-        $money = $api->getMoney($sender->getName());
-        $sender->sendMessage($api->getCommandPrefix("Money") . str_replace("{money}", $money, $api->getLang($sender->getName() ,"MyMoney")));
+        if (!$this->testPermission($sender)) {
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "NoPermission"));
+            return false;
+        }
+        if (empty($args[0])) {
+            $sender->sendMessage($api->getCommandPrefix("Info") . $api->getLang($sender->getName(), "ScoreBoardUsage"));
+            return false;
+        }
+        if ($args[0] == "off") {
+            $pk = new RemoveObjectivePacket();
+            $pk->objectiveName = "standart";
+            $sender->getNetworkSession()->sendDataPacket($pk);
+            $api->setUser($sender, "sb", false);
+            $sender->sendMessage($api->getCommandPrefix("Prefix"). $api->getLang($sender->getName(), "ScoreBoardOff"));
+        }
+        if ($args[0] == "on") {
+            $api->setUser($sender, "sb", true);
+            if($api->getUser($sender->getName(), "sb") === true){
+                $sb = new ScoreBoardListner();
+                $sb->scoreboard();
+            }            $sender->sendMessage($api->getCommandPrefix("Prefix"). $api->getLang($sender->getName(), "ScoreBoardOn"));
+        }
         return true;
     }
 }

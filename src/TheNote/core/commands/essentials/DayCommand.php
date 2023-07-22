@@ -25,22 +25,22 @@ class DayCommand extends Command
 	{
 		$this->plugin = $plugin;
 		$api = new CoreAPI();
-		parent::__construct("day", $api->getCommandPrefix("prefix") . $api->getCommandPrefix("DayDescription"), "/day", ["tag"]);
+		parent::__construct("day", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("DayDescription"), "/day", ["tag"]);
 		$this->setPermission(Permissions::$day);
 	}
 	public function execute(CommandSender $sender, string $commandLabel, array $args): bool
 	{
 		$api = new CoreAPI();
 		if (!$sender instanceof Player) {
-			$sender->sendMessage($api->getCommandPrefix("error") . $api->getLang($sender->getName(), "CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
 			return false;
 		}
 		if (!$this->testPermission($sender)) {
-			$sender->sendMessage($api->getCommandPrefix("error") . $api->getLang($sender->getName(),"NoPermission"));
+			$sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(),"NoPermission"));
 			return false;
 		}
 		$sender->getWorld()->setTime(0);
-		$sender->sendMessage($api->getCommandPrefix("prefix") . $api->getLang($sender->getName(),"DayConfirm"));
+		$sender->sendMessage($api->getCommandPrefix("Prefix") . $api->getLang($sender->getName(),"DayConfirm"));
 		return true;
 	}
 }

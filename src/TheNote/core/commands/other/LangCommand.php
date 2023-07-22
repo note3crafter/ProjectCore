@@ -8,25 +8,25 @@
 //  ╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝
 //  Easy to Use! Written in Love! Project Core by TheNote\RetroRolf\Rudolf2000\note3crafter
 
-namespace TheNote\core\commands\economy;
+namespace TheNote\core\commands\other;
 
-use pocketmine\event\Listener;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use TheNote\core\CoreAPI;
 use TheNote\core\Main;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
 use TheNote\core\utils\Permissions;
 
-class MyMoneyCommand extends Command implements Listener
+class LangCommand extends Command
 {
+
     private Main $plugin;
 
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
         $api = new CoreAPI();
-        parent::__construct("mymoney", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("MyMoneyDescription"), "/mymoney");
+        parent::__construct("lang", $api->getCommandPrefix("Prefix") . "§eSelect your Language", "/lang");
         $this->setPermission(Permissions::$defaultperm);
     }
 
@@ -37,8 +37,25 @@ class MyMoneyCommand extends Command implements Listener
             $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
-        $money = $api->getMoney($sender->getName());
-        $sender->sendMessage($api->getCommandPrefix("Money") . str_replace("{money}", $money, $api->getLang($sender->getName() ,"MyMoney")));
+        if (!$this->testPermission($sender)) {
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "NoPermission"));
+            return false;
+        }
+        if (empty($args[0])) {
+            $sender->sendMessage($api->getCommandPrefix("Info") . "§eUsage§f: §e/lang list");
+            return false;
+        }
+        if ($args[0] == "list") {
+            $sender->sendMessage($api->getCommandPrefix("Info") . "Aviable Languages : Deutsch, English");
+        }
+        if ($args[0] == "deu") {
+            $api->setUser($sender, "language", "DEU");
+            $sender->sendMessage($api->getCommandPrefix("Info") . "§eDeine Sprache wurde in Deutsch geändert!");
+        }
+        if ($args[0] == "eng") {
+            $api->setUser($sender, "language", "ENG");
+            $sender->sendMessage($api->getCommandPrefix("Info") . "§eYour language are changed to English!");
+        }
         return true;
     }
 }

@@ -59,16 +59,134 @@ class BanCommand extends Command
             return false;
         }
         if ($args[0] == "id") {
-            $sender->sendMessage($api->getCommandPrefix("Ban") .  $api->getLang($sender->getName(), "BanID"));
+            $sender->sendMessage($api->getCommandPrefix("Ban") . $api->getLang($sender->getName(), "BanID"));
             return true;
         }
         if ($args[0] == "help") {
-            $sender->sendMessage($api->getCommandPrefix("Ban") .  $api->getLang($sender->getName(), "BanHelp"));
+            $sender->sendMessage($api->getCommandPrefix("Ban") . $api->getLang($sender->getName(), "BanHelp"));
             return true;
         }
         if (isset($args[0])) {
             $victim = $api->findPlayer($sender, $args[0]);
-            if($victim === null) return false;
+            if (!$victim->isOnline()) {
+                $offname = $args[0];
+                if (!file_exists($this->plugin->getDataFolder() . "Ban/$offname.yml")) {
+                    $sender->sendMessage($api->getCommandPrefix("Ban") . $api->getLang($offname, "BanErrorNotFound"));
+                    return false;
+                } else {
+                    if (empty($args[1])) {
+                        $api->setBan($offname, "bannedby", $sender->getName());
+                        $api->setBan($offname, "banreason", "Permaban");
+                        $api->setBan($offname, "banid", 99);
+                        $api->setBan($offname, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                        return true;
+                    } else {
+                        if (array_key_exists($args[1], $this->bans)) {
+                            $idList = $this->bans[$args[1]];
+                            $duration = explode(':', $idList['Duration']);
+                            $date = new DateTime('now');
+                            if ($duration[0] == 'T') {
+
+                                try {
+                                    $date->add(new DateInterval('PT' . $duration[1] * "1" . $duration[2]));
+                                } catch (Exception $e) {
+                                }
+                            } else {
+                                try {
+                                    $date->add(new DateInterval('P' . $duration[1] * "1" . $duration[2]));
+                                } catch (Exception $e) {
+                                }
+                            }
+                            $format = $date->format('Y-m-d H:i:s');
+                            if ($args[1] == 1) { //1 Jahr
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Hacking");
+                                $api->setBan($offname, "banid", 1);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 2) { //1 Woche
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Privatdaten");
+                                $api->setBan($offname, "banid", 2);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 3) { //1 Tag
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Respektloses Verhalten");
+                                $api->setBan($offname, "banid", 3);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 4) { //1 Stunde
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Provokantes Verhalten");
+                                $api->setBan($offname, "banid", 4);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 5) { //1 Stunde
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Spamming");
+                                $api->setBan($offname, "banid", 5);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 6) { //3 Tage
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Werbung");
+                                $api->setBan($offname, "banid", 6);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 7) { //1 Stunde
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Report Missbrauch");
+                                $api->setBan($offname, "banid", 7);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 8) { //2 Wochen
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Wortwahl/Drohung");
+                                $api->setBan($offname, "banid", 8);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 9) { //1 Tag
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Unnötiges Gesülze im Chat");
+                                $api->setBan($offname, "banid", 9);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            } elseif ($args[1] == 10) { //1 Tag
+                                $api->setBan($offname, "bannedby", $sender->getName());
+                                $api->setBan($offname, "banreason", "Bugusing");
+                                $api->setBan($offname, "banid", 10);
+                                $api->setBan($offname, "bantime", $format);
+                                $api->setBan($offname, "ban", true);
+                                $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $offname, $api->getLang($sender->getName(), "BanSucces")));
+                                return true;
+                            }
+                        } else {
+                            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "BanErrorID"));
+                            return false;
+                        }
+                    }
+                }
+            }
             $vname = $victim->getName();
             if (empty($args[1])) {
                 if ($api->findPlayer($sender, $args[0]) instanceof Player) {
@@ -77,6 +195,7 @@ class BanCommand extends Command
                     $api->setBan($victim, "banreason", "Permaban");
                     $api->setBan($victim, "banid", 99);
                     $api->setBan($victim, "ban", true);
+                    $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                     return true;
                 }
             } else {
@@ -104,6 +223,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 1);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 2) { //1 Woche
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick2"), false);
@@ -112,6 +232,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 2);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 3) { //1 Tag
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick3"), false);
@@ -120,6 +241,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 3);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 4) { //1 Stunde
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick4"), false);
@@ -128,6 +250,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 4);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 5) { //1 Stunde
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick5"), false);
@@ -136,6 +259,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 5);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 6) { //3 Tage
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick6"), false);
@@ -144,6 +268,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 6);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 7) { //1 Stunde
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick7"), false);
@@ -152,6 +277,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 7);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 8) { //2 Wochen
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick8"), false);
@@ -160,6 +286,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 8);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 9) { //1 Tag
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick9"), false);
@@ -168,6 +295,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 9);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     } elseif ($args[1] == 10) { //1 Tag
                         $victim->kick($api->getCommandPrefix("Ban") . $api->getLang($vname, "BanKick10"), false);
@@ -176,6 +304,7 @@ class BanCommand extends Command
                         $api->setBan($victim, "banid", 10);
                         $api->setBan($victim, "bantime", $format);
                         $api->setBan($victim, "ban", true);
+                        $sender->sendMessage($api->getCommandPrefix("Ban") . str_replace("{victim}", $vname, $api->getLang($sender->getName(), "BanSucces")));
                         return true;
                     }
                 } else {

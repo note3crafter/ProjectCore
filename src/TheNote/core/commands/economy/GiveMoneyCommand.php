@@ -26,7 +26,7 @@ class GiveMoneyCommand extends Command implements Listener
     {
         $this->plugin = $plugin;
         $api = new CoreAPI();
-        parent::__construct("givemoney", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("GiveMoneyDescription"), "/givemoney {player} {value}");
+        parent::__construct("givemoney", $api->getCommandPrefix("Prefix") . $api->getCommandPrefix("GiveMoneyDescription"), "/givemoney {player} {value}", ["addmoney"]);
         $this->setPermission(Permissions::$givemoney);
     }
 
@@ -34,7 +34,7 @@ class GiveMoneyCommand extends Command implements Listener
     {
         $api = new CoreAPI();
         if (!$sender instanceof Player) {
-            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "CommandIngame"));
+            $sender->sendMessage($api->getCommandPrefix("Error") . $api->getCommandPrefix("CommandIngame"));
             return false;
         }
         if (!$this->testPermission($sender)) {
