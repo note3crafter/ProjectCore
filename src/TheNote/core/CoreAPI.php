@@ -55,8 +55,8 @@ class CoreAPI implements Listener
         return $lang->get($langkey);
     }
     #BanSystem
-    public function setBan(Player $player, $key, $data) {
-        $ban = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$ban . $player->getName() . ".json", Config::JSON);
+    public function setBan(string $playername, $key, $data) {
+        $ban = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$ban . $playername . ".json", Config::JSON);
         $ban->set($key, $data);
         $ban->save();
     }
