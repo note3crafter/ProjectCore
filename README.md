@@ -26,6 +26,7 @@
 Please make a Issue! 
 
 # Addons
+ShopSystem : [Download Here](https://github.com/note3crafter/PC-ShopSystem)
 ScoreBoard Addon in Work
 Leaderboard Addon in Work
 
