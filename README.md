@@ -26,10 +26,10 @@
 Please make a Issue! 
 
 # Addons
-ShopSystem : [Download Here](https://github.com/note3crafter/PC-ShopSystem)
-VoteSystem : [Download Here](https://github.com/note3crafter/PC-VoteSystem)
-ScoreBoard Addon in Work
-Leaderboard Addon in Work
+- ShopSystem : [Download Here](https://github.com/note3crafter/PC-ShopSystem)
+- VoteSystem : [Download Here](https://github.com/note3crafter/PC-VoteSystem)
+- ScoreBoard Addon in Work
+- Leaderboard Addon in Work
 
 # Important information
 The Project Core can have errors! Of course we are working to fix these errors! We will also use this project on our server!
