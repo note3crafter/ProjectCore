@@ -46,7 +46,7 @@ class LangCommand extends Command
             return false;
         }
         if ($args[0] == "list") {
-            $sender->sendMessage($api->getCommandPrefix("Info") . "Aviable Languages : Deutsch, English");
+            $sender->sendMessage($api->getCommandPrefix("Info") . "Aviable Languages : German(deu), English(eng), Spanish(esp)");
         }
         if ($args[0] == "deu") {
             $api->setUser($sender, "language", "DEU");
@@ -55,6 +55,10 @@ class LangCommand extends Command
         if ($args[0] == "eng") {
             $api->setUser($sender, "language", "ENG");
             $sender->sendMessage($api->getCommandPrefix("Info") . "§eYour language are changed to English!");
+        }
+        if ($args[0] == "esp") {
+            $api->setUser($sender, "language", "ESP");
+            $sender->sendMessage($api->getCommandPrefix("Info") . "§eSu idioma ha sido cambiado a español!");
         }
         return true;
     }
