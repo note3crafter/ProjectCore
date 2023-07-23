@@ -27,6 +27,7 @@ Please make a Issue!
 
 # Addons
 ShopSystem : [Download Here](https://github.com/note3crafter/PC-ShopSystem)
+VoteSystem : [Download Here](https://github.com/note3crafter/PC-VoteSystem)
 ScoreBoard Addon in Work
 Leaderboard Addon in Work
 
