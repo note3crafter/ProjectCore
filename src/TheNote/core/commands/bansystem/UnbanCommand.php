@@ -39,7 +39,7 @@ class UnbanCommand extends Command
             return true;
         }
         $victim = $args[0];
-        if (!file_exists($this->plugin->getDataFolder() . "Ban/$victim.yml")) {
+        if (!file_exists($this->plugin->getDataFolder() . CoreAPI::$ban . "$victim.json")) {
             $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "UnbanError"));
             return false;
         } else {
