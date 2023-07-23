@@ -48,7 +48,7 @@ class KickCommand extends Command
             }
             if (empty($args[1])) {
                 if ($victim instanceof Player) {
-                    $message = str_replace("{sender}", $sender->getName(), $api->getLang($sender->getName(), "KickSucces"));
+                    $message = str_replace("{sender}", $sender->getName(), $api->getLang($victim->getName(), "KickSucces"));
                     $victim->kick($message, false);
                 }
             }
