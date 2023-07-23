@@ -166,7 +166,8 @@ class Main extends PluginBase
         $this->saveResource("Lang/LangCommandPrefix.yml");
         $this->saveResource("Lang/LangDEU.json");
         $this->saveResource("Lang/LangENG.json");
-
+        $this->saveResource("Lang/LangESP.json");
+        
         $g = new GroupsGenerate();
         $g->groupsgenerate();
         //$c = new ConfigChecker(); #Comming Soon
