@@ -37,7 +37,7 @@ The Project Core can have errors! Of course we are working to fix these errors! 
 For the Command /ec you need InvMenu!
 
 # Servers
-CyberCrafft
+CyberCraft
 play-cybercraft.de
 Port: 19132
 
