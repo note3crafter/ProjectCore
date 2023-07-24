@@ -54,6 +54,12 @@ class CoreAPI implements Listener
         $lang = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$lang . "Lang" . $api->getUser($player, "language") . ".json", Config::JSON);
         return $lang->get($langkey);
     }
+    #DiscordAPI
+    public function getDiscord($key) {
+        $dc = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
+        $dc->get($key);
+        return $dc->get($key);
+    }
     #BanSystem
     public function setBan(string $playername, $key, $data) {
         $ban = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$ban . $playername . ".json", Config::JSON);

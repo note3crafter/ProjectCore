@@ -167,7 +167,7 @@ class Main extends PluginBase
         $this->saveResource("Lang/LangDEU.json");
         $this->saveResource("Lang/LangENG.json");
         $this->saveResource("Lang/LangESP.json");
-        
+
         $g = new GroupsGenerate();
         $g->groupsgenerate();
         //$c = new ConfigChecker(); #Comming Soon
@@ -465,10 +465,9 @@ class Main extends PluginBase
             $this->getServer()->getPluginManager()->registerEvents(new SpawnProtection($capi->getConfig("Radius")), $this);
         }
         if($capi->modules("DiscordSystem") === true) {
-            $dcsettings = new Config($this->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
-            if($dcsettings->get("Start") === true) {
+            if($capi->getDiscord("Start") === true) {
                 $dc = new DiscordAPI();
-                $dc->sendMessage($dcsettings->get("chatprefix"), $dcsettings->get("StartMSG"));
+                $dc->sendMessage($capi->getDiscord("chatprefix"), $capi->getDiscord("StartMSG"));
             }
         }
     }
@@ -481,10 +480,9 @@ class Main extends PluginBase
             }
         }
         if($api->modules("DiscordSystem") === true) {
-            $dcsettings = new Config($this->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
-            if($dcsettings->get("Stop") === true) {
+            if($api->getDiscord("Stop") === true) {
                 $dc = new DiscordAPI();
-                $dc->sendMessage($dcsettings->get("chatprefix"), $dcsettings->get("StopMSG"));
+                $dc->sendMessage($api->getDiscord("chatprefix"), $api->getDiscord("StopMSG"));
             }
         }
     }
