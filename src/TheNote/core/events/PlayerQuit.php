@@ -19,6 +19,7 @@ use pocketmine\utils\Config;
 use TheNote\core\CoreAPI;
 use TheNote\core\listener\ScoreBoardListner;
 use TheNote\core\Main;
+use TheNote\core\task\ScoreUpdateTask;
 use TheNote\core\utils\DiscordAPI;
 
 class PlayerQuit implements Listener
@@ -60,23 +61,7 @@ class PlayerQuit implements Listener
         //Scoreboard
         if($api->modules("ScoreBoardSystem") === true) {
             if ($api->getUser($name, "sb") === true) {
-                $this->plugin->getScheduler()->scheduleRepeatingTask(new class extends Task {
-                    private $timer = 6;
-                    private $i = 0;
-                    public function onRun(): void {
-                        $sb = new ScoreBoardListner();
-                        $this->timer--;
-                        if ($this->timer >= 3) {
-                            if ($this->i == 2) {
-                                $sb->scoreboard();
-                            }
-                            if ($this->i == 5) {
-                                $this->i = 0;
-                            }
-                            $this->i++;
-                        }
-                    }
-                }, 20);
+                $this->plugin->getScheduler()->scheduleRepeatingTask(new ScoreUpdateTask(), 20);
             }
         }
         //Discord
