@@ -60,7 +60,7 @@ class PlayerQuit implements Listener
         //Scoreboard
         if($api->modules("ScoreBoardSystem") === true) {
             if ($api->getUser($name, "sb") === true) {
-                Main::getInstance()->getScheduler()->scheduleRepeatingTask(new class extends Task {
+                $this->plugin->getScheduler()->scheduleRepeatingTask(new class extends Task {
                     private $timer = 6;
                     private $i = 0;
                     public function onRun(): void {
