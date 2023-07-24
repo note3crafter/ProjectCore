@@ -65,10 +65,10 @@ class PayMoneyCommand extends Command implements Listener
         }
         $api->addMoney($target, (int)$args[1]);
         $api->removeMoney($sender, (int)$args[1]);
-        $message = str_replace("{victim}", $target->getName(), $api->getLang($target->getName(),"PayMoneyTarget"));
+        $message = str_replace("{victim}", $target->getName(), $api->getLang($sender->getName(),"PayMoneyTarget"));
         $message1 = str_replace("{money}", $args[1] , $message);
         $sender->sendMessage($api->getCommandPrefix("Money") . $message1);
-        $message2 = str_replace("{player}", $sender->getName(), $api->getLang($sender->getName(), "PayMoneySender"));
+        $message2 = str_replace("{player}", $sender->getName(), $api->getLang($target->getName(), "PayMoneySender"));
         $message3 = str_replace("{money}", $args[1] , $message2);
         $target->sendMessage($api->getCommandPrefix("Money") . $message3);
         if($api->getUser($sender->getName(), "sb") === true){
