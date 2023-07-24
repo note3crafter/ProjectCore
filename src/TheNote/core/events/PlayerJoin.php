@@ -242,20 +242,19 @@ class PlayerJoin implements Listener
         }
         //Discord
         if($api->modules("DiscordSystem") === true) {
-            $dcsettings = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
-            $chatprefix = $dcsettings->get("chatprefix");
+            $chatprefix = $api->getDiscord("chatprefix");
             $group = $playerdata->getNested($player->getName() . ".group");
             $time = new DateTime("now", new DateTimeZone("Europe/Berlin"));
-            if($dcsettings->get("Join") === true) {
+            if($api->getDiscord("Join") === true) {
                 $dc = new DiscordAPI();
                 if($api->modules("GroupSystem") === true) {
-                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("JoinMSG"));
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $api->getDiscord("JoinMSG"));
                     $stp2 = str_replace("{count}", count($all), $stp1);
                     $stp3 = str_replace("{slots}", $slots, $stp2);
                     $player = str_replace("{gruppe}", $group, $stp3);
                     $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
                 } else {
-                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("JoinMSG"));
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $api->getDiscord("JoinMSG"));
                     $stp2 = str_replace("{count}", count($all), $stp1);
                     $player = str_replace("{slots}", $slots, $stp2);
                     $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));

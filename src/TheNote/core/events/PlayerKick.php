@@ -41,20 +41,19 @@ class PlayerKick implements Listener
             $playerdata = new Config($this->plugin->getDataFolder() . CoreAPI::$cloud . "players.yml", Config::YAML);
             $all = $this->plugin->getServer()->getOnlinePlayers();
             $slots = $this->plugin->getServer()->getMaxPlayers();
-            $dcsettings = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Discord.yml", Config::YAML);
-            $chatprefix = $dcsettings->get("chatprefix");
+            $chatprefix = $api->getDiscord("chatprefix");
             $group = $playerdata->getNested($player->getName() . ".group");
             $time = new DateTime("now", new DateTimeZone("Europe/Berlin"));
-            if($dcsettings->get("Kick") === true) {
+            if($api->getDiscord("Kick") === true) {
                 $dc = new DiscordAPI();
                 if($api->modules("GroupSystem") === true) {
-                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("KickMSG"));
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $api->getDiscord("KickMSG"));
                     $stp2 = str_replace("{count}", count($all), $stp1);
                     $stp3 = str_replace("{slots}", $slots, $stp2);
                     $player = str_replace("{gruppe}", $group, $stp3);
                     $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
                 } else {
-                    $stp1 = str_replace("{dcprefix}", $chatprefix, $dcsettings->get("KickMSG"));
+                    $stp1 = str_replace("{dcprefix}", $chatprefix, $api->getDiscord("KickMSG"));
                     $stp2 = str_replace("{count}", count($all), $stp1);
                     $player = str_replace("{slots}", $slots, $stp2);
                     $msg = str_replace("{time}", $time->format("H:i"), str_replace("{player}", $name, $player));
