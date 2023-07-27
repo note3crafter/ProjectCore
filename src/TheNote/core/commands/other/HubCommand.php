@@ -49,14 +49,14 @@ class HubCommand extends Command
         $y = $warp->getNested($name . ".Y");
         $z = $warp->getNested($name . ".Z");
         $world = $warp->getNested($name . ".world");
-        if ($name !== null) {
+        if ($name == null) {
             $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "HubError"));
             return false;
-        } elseif ($world !== null) {
-            $this->plugin->getServer()->getWorldManager()->loadWorld($world);
+        } elseif ($world === null) {
             $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "HubError"));
             return false;
         } else {
+            $this->plugin->getServer()->getWorldManager()->loadWorld($world);
             $sender->teleport(new Position($x, $y, $z, $this->plugin->getServer()->getWorldManager()->getWorldByName($world)));
             $sender->sendMessage($api->getCommandPrefix("Prefix") . $api->getLang($sender->getName(), "HubSucces"));
             if ($api->getConfig("HubFood") === true) {
