@@ -29,7 +29,7 @@ Please make a Issue!
 - ShopSystem : [Download Here](https://github.com/note3crafter/PC-ShopSystem)
 - VoteSystem : [Download Here](https://github.com/note3crafter/PC-VoteSystem)
 - CoinSystem : [Download Here](https://github.com/note3crafter/PC-CoinSystem)
-- Leaderboard Addon in Work
+- Leaderboard : [Download Here](https://github.com/note3crafter/PC-Leaderboard)
 
 # Important information
 The Project Core can have errors! Of course we are working to fix these errors! We will also use this project on our server!
@@ -39,7 +39,7 @@ For the Command /ec you need InvMenu!
 # Servers
 CyberCraft
 play-cybercraft.de
-Port: 19132
+Port: ++++ (Only on Discord aviable)
 
 This is a better Version of [CoreV7](https://github.com/note3crafter/CoreV7-PM5)
 
