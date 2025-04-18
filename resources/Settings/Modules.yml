@@ -1,5 +1,5 @@
 ---
-Version: 1.1.0
+Version: 1.3.0
 
 ###Setting up here your Commands and functions
 #BanSystem
@@ -110,5 +110,12 @@ Stats: true
 
 ###DiscordAPI
 DiscordSystem: false
+
+###AutoClearLagg
+AutoClearLagg: true
+
+###World Protector
+#Protect your world by Blocking Events and More
+WorldProtector: true
 ...
 

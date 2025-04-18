@@ -58,6 +58,10 @@ class WeatherCommand extends Command
         if (isset($args[1]) && is_numeric($args[1])) {
             $duration = intval($args[1]);
         }
+        if (empty($args[0])) {
+            $sender->sendMessage($api->getCommandPrefix("Info") . $api->getLang($sender->getName(), "WeatherUsage"));
+            return;
+        }
         switch ($type = strtolower($args[0])) {
             case "clear":
                 foreach ($weathers as $weather) $weather->stopStorm();

@@ -10,14 +10,14 @@
 
 namespace TheNote\core\events;
 
-use pocketmine\block\VanillaBlocks;
-use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerItemUseEvent;
+use pocketmine\item\ItemTypeIds;
 use TheNote\core\CoreAPI;
 use TheNote\core\Main;
 use TheNote\core\utils\Permissions;
 
-class BlockPlace implements Listener
+class PlayerItemUse implements Listener
 {
     public Main $plugin;
 
@@ -25,31 +25,19 @@ class BlockPlace implements Listener
     {
         $this->plugin = $plugin;
     }
-
-    public function place(BlockPlaceEvent $event)
-    {
+    public function onItemUse(PlayerItemUseEvent $event): void {
         $player = $event->getPlayer();
-        $name = $player->getName();
-        $worldName = $player->getWorld()->getFolderName();
+        $item = $event->getItem();
         $api = new CoreAPI();
-        if ($api->modules("StatsSystem") === true) {
-            $api->addPlacePoints($player, 1);
-            $api->addServerStats("place", 1);
-        }
-        if ($api->modules("Elevators") === true) {
-            if ($event->getBlockAgainst()->getTypeId() == VanillaBlocks::DAYLIGHT_SENSOR()->getTypeId() && $event->getBlockAgainst()->getTypeId() == VanillaBlocks::DAYLIGHT_SENSOR()->getTypeId()) {
-                $player->sendTip($api->getCommandPrefix("Lift") . $api->getLang($name, "EPlaceSucces"));
-                return true;
-            }
-        }
         if ($api->modules("WorldProtector") === true) {
-            if (in_array($worldName, $api->getWorlds("BlockPlace"))) {
-                if ($player->hasPermission(Permissions::$blockplace)) {
-                    return true;
+            if ($item->getTypeId() === ItemTypeIds::ICE_BOMB) {
+                $worldName = $player->getWorld()->getFolderName();
+                if (in_array($worldName, $api->getWorlds("IceBomb"))) {
+                    if (!$player->hasPermission(Permissions::$itemuseicebomb)) {
+                        $event->cancel();
+                    }
                 }
-                $event->cancel();
             }
         }
-        return true;
     }
 }

@@ -1,4 +1,10 @@
-# ProjectCore v.1.1.0 BETA  
+# ProjectCore v.1.3.0 BETA
+
+# 1.3.0
+- Add WorldProtector -> Prtotect the world from griefing and blocking interact from different items!
+- Update to newest Version
+- Old Config files need to be updatet after this update!
+- Prevent crash when using /weather without arguments
 
 ## Discord : [Join](https://discord.gg/ju2gGzq)
 
@@ -23,7 +29,7 @@
 - [✓] DiscordSystem whit API to Use
 
 # Bugs and Crashes
-Please make a Issue! 
+Please make a Issue!
 
 # Addons
 - ShopSystem : [Download Here](https://github.com/note3crafter/PC-ShopSystem)

@@ -30,6 +30,7 @@ class CoreAPI implements Listener
     public static string $statsfile = "Cloud/players/Stats/";
     public static string $userfile = "Cloud/players/User/";
     public static string $backfile = "Cloud/players/";
+    public static string $defaultperm = "ProjectCore";
 
     //PlayerFinder
     public function findPlayer(CommandSender $sender, string $playerName) : ?Player{
@@ -100,11 +101,17 @@ class CoreAPI implements Listener
         $money->setNested("money." . $player->getName(), $amount);
         $money->save();
     }
-
     public function getAllMoney()
     {
+        $moneyData = [];
         $money = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "Money.yml", Config::YAML);
-        $money->get("money", []);
+        $moneyList = $money->get("money", []);
+
+        foreach ($moneyList as $playerName => $amount) {
+            $moneyData[$playerName] = $amount;
+        }
+
+        return $moneyData;
     }
     //HomeAPI
     public function getHome(string $playername) {
@@ -164,6 +171,7 @@ class CoreAPI implements Listener
         $back = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$backfile . "Back.json", Config::JSON);
         return $back->exists($playername);
     }
+    //MarryMe
     public function getMarry($player, $marry)
     {
         $hei = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$heifile . $player . ".json", Config::JSON);
@@ -211,6 +219,12 @@ class CoreAPI implements Listener
         $cfg = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$settings . "Config.yml", Config::YAML);
         return $cfg->get($configdata);
     }
+    public function getWorlds(string $key): array
+    {
+        $api = new CoreAPI();
+        return $api->getConfig($key) ?? [];
+    }
+
     //GroupUserdataAPI
     public function getUserGroup(string $name, $key) {
         $group = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$gruppefile . $name . ".json", Config::JSON);
@@ -435,13 +449,26 @@ class CoreAPI implements Listener
 
     //ServerStats
     public function getServerStats($data) {
-        $serverstats = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "serverstats.json", Config::JSON);
-        $serverstats->get($data);
-        return $serverstats->get($data);
+        if ($this->getConfig("MultiServer") === true) {
+            $serverstats = new Config(CoreAPI::$cloud . "serverstats.json", Config::JSON);
+            $serverstats->get($data);
+            return $serverstats->get($data);
+        } else {
+            $serverstats = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "serverstats.json", Config::JSON);
+            $serverstats->get($data);
+            return $serverstats->get($data);
+        }
     }
-    public function addServerStats($data, $amount) {
-        $serverstats = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "serverstats.json", Config::JSON);
-        $serverstats->set($data, $serverstats->get($data) + $amount);
-        $serverstats->save();
+    public function addServerStats($data, $amount)
+    {
+        if ($this->getConfig("MultiServer") === true) {
+            $serverstats = new Config(CoreAPI::$cloud . "serverstats.json", Config::JSON);
+            $serverstats->set($data, $serverstats->get($data) + $amount);
+            $serverstats->save();
+        } else {
+            $serverstats = new Config(Main::getInstance()->getDataFolder() . CoreAPI::$cloud . "serverstats.json", Config::JSON);
+            $serverstats->set($data, $serverstats->get($data) + $amount);
+            $serverstats->save();
+        }
     }
 }

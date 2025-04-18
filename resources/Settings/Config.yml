@@ -1,6 +1,6 @@
 ---
 #Dont Touch This
-Version: 1.1.0
+Version: 1.3.0
 
 #NetworkName
 NetWorkName: true
@@ -52,6 +52,57 @@ KeepInventory: true #keep your inventar
 #DefaultSpawn
 DefaultSpawn: true #teleports the player back every join in the Lobby!
 
-#JavaSnaking
-JavaSneak: true
+#AntiVoidDeath
+NoVoidDeath: true
+
+###ProtectWorlds
+#Restrict the usage of items and block building in this world.
+BlockPlace:
+  - world
+  - Lobby
+  - Hub
+BlockBreak:
+  - world
+  - Lobby
+  - Hub
+BoneMeal:
+  - world
+  - Lobby
+  - Hub
+Bucket:
+  - world
+  - Lobby
+  - Hub
+Chest:
+  - world
+  - Lobby
+  - Hub
+Doors:
+  - world
+  - Lobby
+  - Hub
+DragonEgg:
+  - world
+  - Lobby
+  - Hub
+FlintAndSteel:
+  - world
+  - Lobby
+  - Hub
+HoneyComb:
+  - world
+  - Lobby
+  - Hub
+IceBomb:
+  - world
+  - Lobby
+  - Hub
+ItemFrame:
+  - world
+  - Lobby
+  - Hub
+SignEdit:
+  - world
+  - Lobby
+  - Hub
 ...

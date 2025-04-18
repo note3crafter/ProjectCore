@@ -42,7 +42,7 @@ class SurvivalCommand extends Command
             return false;
         }
         if (isset($args[0])) {
-            if ($sender->hasPermission(Permissions::$spectatorother)) {
+            if ($sender->hasPermission(Permissions::$survivalother)) {
                 $target = $api->findPlayer($sender, $args[0]);
                 if ($target == null) {
                     $sender->sendMessage($api->getCommandPrefix("Error") . $api->getLang($sender->getName(), "PlayernotOnline"));

@@ -10,11 +10,7 @@
 
 namespace TheNote\core;
 
-use pocketmine\event\EventPriority;
-use pocketmine\event\player\PlayerToggleSneakEvent;
-use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\network\mcpe\protocol\StartGamePacket;
-use pocketmine\network\mcpe\protocol\types\Experiments;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\Config;
@@ -40,6 +36,7 @@ use TheNote\core\commands\essentials\NickCommand;
 use TheNote\core\commands\essentials\NightCommand;
 use TheNote\core\commands\essentials\NukeCommand;
 use TheNote\core\commands\essentials\PosCommand;
+use TheNote\core\commands\essentials\RandomNickCommand;
 use TheNote\core\commands\essentials\RealnameCommand;
 use TheNote\core\commands\essentials\RenameCommand;
 use TheNote\core\commands\essentials\RepairCommand;
@@ -101,6 +98,7 @@ use TheNote\core\events\PlayerConsume;
 use TheNote\core\events\PlayerDeath;
 use TheNote\core\events\PlayerDrop;
 use TheNote\core\events\PlayerInteract;
+use TheNote\core\events\PlayerItemUse;
 use TheNote\core\events\PlayerJoin;
 use TheNote\core\events\PlayerJump;
 use TheNote\core\events\PlayerKick;
@@ -113,6 +111,7 @@ use TheNote\core\listener\BackListener;
 use TheNote\core\listener\BanListener;
 use TheNote\core\listener\CoreListner;
 use TheNote\core\listener\GroupListener;
+use TheNote\core\task\AutoClearLagg;
 use TheNote\core\task\ParticleTask;
 use TheNote\core\utils\ConfigChecker;
 use TheNote\core\utils\DiscordAPI;
@@ -122,10 +121,10 @@ use TheNote\core\world\WorldManager;
 class Main extends PluginBase
 {
     public static string $defaultperm = "ProjectCore";
-    public static string $version = "1.1.0";
-    public static string $dateversion = "22.07.2023";
-    public static string $mcpeversion = "1.20.12";
-    public static string $protokoll = "594";
+    public static string $version = "1.3.0";
+    public static string $dateversion = "18.04.2025";
+    public static string $mcpeversion = "1.21.72";
+    public static string $protokoll = "786";
     public static string $plname = "ProjectCore";
 
 
@@ -142,7 +141,15 @@ class Main extends PluginBase
     {
         return self::$instance;
     }
+    private $nicknames = [];
+
     public function onLoad(): void {
+        foreach (scandir($this->getServer()->getDataPath() . "worlds") as $file) {
+            if (Server::getInstance()->getWorldManager()->isWorldGenerated($file)) {
+                $this->getServer()->getWorldManager()->loadWorld($file);
+
+            }
+        }
         self::$instance = $this;
         @mkdir($this->getDataFolder() . "Settings");
         @mkdir($this->getDataFolder() . "Cloud");
@@ -163,11 +170,18 @@ class Main extends PluginBase
         $this->saveResource("Settings/Modules.yml");
         $this->saveResource("Settings/Scoreboard.yml");
         $this->saveResource("Settings/Discord.yml");
+        $this->saveResource("Settings/AutoClearLagg.yml");
+        $this->saveResource("Settings/RandomNicks.yml");
         $this->saveResource("Lang/LangCommandPrefix.yml");
         $this->saveResource("Lang/LangDEU.json");
         $this->saveResource("Lang/LangENG.json");
         $this->saveResource("Lang/LangESP.json");
 
+        $capi = new CoreAPI();
+        if ($capi->modules("BanSystem") === true) {
+            Server::getInstance()->getCommandMap()->unregister(Server::getInstance()->getCommandMap()->getCommand("ban"));
+            Server::getInstance()->getCommandMap()->unregister(Server::getInstance()->getCommandMap()->getCommand("unban"));
+        }
         $g = new GroupsGenerate();
         $g->groupsgenerate();
         //$c = new ConfigChecker(); #Comming Soon
@@ -191,30 +205,7 @@ class Main extends PluginBase
         if($capi->getConfig("NetWorkName") === true) {
             $this->getServer()->getNetwork()->setName($capi->getConfig("ServerName"));
         }
-
-        if($capi->getConfig("JavaSneak") === true) {
-            $this->getServer()->getPluginManager()->registerEvent(DataPacketSendEvent::class, function (DataPacketSendEvent $event): void {
-                foreach ($event->getPackets() as $packet) {
-                    if ($packet instanceof StartGamePacket) {
-                        $packet->levelSettings->experiments = new Experiments(array_merge($packet->levelSettings->experiments->getExperiments(), [
-                            "short_sneaking" => true
-                        ]), true);
-                    }
-                }
-            }, EventPriority::HIGHEST, $this);
-            $this->getServer()->getPluginManager()->registerEvent(PlayerToggleSneakEvent::class, function (PlayerToggleSneakEvent $event): void {
-                $player = $event->getPlayer();
-                if (!$event->isSneaking()) {
-                    (new \ReflectionMethod($player, "recalculateSize"))->invoke($player);
-                } elseif (!$player->isSwimming() && !$player->isGliding()) {
-                    (new \ReflectionProperty($player->size, "height"))->setValue($player->size, 1.5 * $player->getScale());
-                    (new \ReflectionProperty($player->size, "eyeHeight"))->setValue($player->size, 1.32 * $player->getScale());
-                }
-            }, EventPriority::MONITOR, $this);
-        }
         if ($capi->modules("BanSystem") === true) {
-            Server::getInstance()->getCommandMap()->unregister(Server::getInstance()->getCommandMap()->getCommand("ban"));
-            Server::getInstance()->getCommandMap()->unregister(Server::getInstance()->getCommandMap()->getCommand("unban"));
             $this->getServer()->getCommandMap()->register("ban", new BanCommand($this));
             $this->getServer()->getCommandMap()->register("unban", new UnbanCommand($this));
             $this->getServer()->getPluginManager()->registerEvents(new BanListener($this), $this);
@@ -306,6 +297,7 @@ class Main extends PluginBase
             if ($capi->modules("Nick") === true) {
                 if ($capi->modules("GroupSystem") === true) {
                     $this->getServer()->getCommandMap()->register("nick", new NickCommand($this));
+                    $this->getServer()->getCommandMap()->register("rnick", new RandomNickCommand($this));
                 } else {
                     $this->getLogger()->info("§ePlease activate the GroupSystem to use the Command /nick");
                 }
@@ -454,6 +446,7 @@ class Main extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new PlayerDeath($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerDrop($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerInteract($this), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerItemUse($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerJoin($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerJump($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PlayerKick($this), $this);
@@ -470,6 +463,11 @@ class Main extends PluginBase
                 $dc->sendMessage($capi->getDiscord("chatprefix"), $capi->getDiscord("StartMSG"));
             }
         }
+        if($capi->modules("AutoClearLagg") === true) {
+            $c = new CoreListner();
+            $this->getScheduler()->scheduleRepeatingTask(new AutoClearLagg($c->getCleanTime()), 20);
+        }
+        $this->loadNicknamesFromConfig();
     }
     public function onDisable(): void
     {
@@ -487,6 +485,20 @@ class Main extends PluginBase
         }
     }
 
+    private function loadNicknamesFromConfig(): void {
+        $config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        $this->nicknames = $config->get("nicknames", []);
+    }
+    private function setRandomNickname(Player $player): void {
+        if (empty($this->nicknames)) {
+            return;
+        }
+
+        $randomNickname = $this->nicknames[array_rand($this->nicknames)];
+        $player->setDisplayName($randomNickname);
+        $player->setNameTag($randomNickname);
+    }
+
     private function Banner()
     {
         $banner = strval(
@@ -498,7 +510,7 @@ class Main extends PluginBase
             "║ ║     ║ ║╚╗╚╗ ║ ╚═╝ ║ ║ ╚═╝ ║ ║ ╚═══╗ ║ ╚═══╗   ║ ║        ║ ╚═══╗ ║ ╚═╝ ║ ║ ║╚╗╚╗ ║ ╚═══╗\n" .
             "╚═╝     ╚═╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝   ╚═╝        ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═════╝\n" .
             "Easy to Use! Written in Love! Project Core by TheNote/RetroRolf/Rudolf2000/note3crafter\n" .
-            "                                         2017-2023                                       "
+            "                                         2017-2025                                       "
         );
         $this->getLogger()->info($banner);
     }

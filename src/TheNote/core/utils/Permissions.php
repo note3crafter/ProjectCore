@@ -62,6 +62,21 @@ class Permissions
     public static $tpall = "core.command.tpall";
     public static $vanish = "core.command.vanish";
 
+    //Events
+    public static $blockbreak = "core.events.blockbreak";
+    public static $blockplace = "core.events.blockplace";
+    public static $interactchest = "core.events.interact.chest";
+    public static $interactdoors = "core.events.interact.doors";
+    public static $interactdragonegg = "core.events.interact.dragonegg";
+    public static $interactflintsteel = "core.events.interact.flintsteel";
+    public static $interacthoneycomb = "core.events.interact.honeycomb";
+    public static $interactitemframe = "core.events.interact.itemframe";
+    public static $interactsign = "core.events.interact.sign";
+    public static $interactbonemeal = "core.events.interact.bonemeal";
+    public static $interactbucket = "core.events.interact.buckets";
+    public static $itemuseicebomb = "core.events.itemuse.icebomb";
+
+
     //Gamemode
     public static $adventure = "core.command.adventure";
     public static $adventureother = "core.command.acventure.other";

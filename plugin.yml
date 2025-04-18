@@ -1,10 +1,10 @@
 name: ProjectCore
 main: TheNote\core\Main
-version: 1.1.0-BETA
+version: 1.3.0-BETA
 api:
-  - 5.3.0
+  - 5.27.0
 author: TheNote/Rudolf2000/note3crafter
-description: ProjectCore v1.1.0 BETA
+description: ProjectCore v1.3.0 BETA
 permissions:
   ProjectCore:
     description: "DefaultPermission"
@@ -139,54 +139,116 @@ permissions:
     default: op
 
   core.command.adventure:
+    description: "switch gamemode to adventure"
     default: op
   core.command.adventure.other:
+    description: "switch target gamemode to adventure"
     default: op
   core.command.creative:
+    description: "switch gamemode to creative"
     default: op
   core.command.creative.other:
+    description: "switch target gamemode to creative"
     default: op
   core.command.spectator:
+    description: "switch gamemode to spectator"
     default: op
   core.command.spectator.other:
+    description: "swtich target gamemode to spectator"
     default: op
   core.command.survival:
+    description: "switch gamemode to survival"
     default: op
   core.command.survival.other:
+    description: "switch target gamemode to survival"
     default: op
 
   core.command.group:
+    description: "manage groups"
     default: op
 
   core.command.adminitems:
+    description: "for admins"
     default: op
   core.command.adminitems.superbow:
+    description: "for admins"
     default: op
   core.command.adminitems.explosivbow:
+    description: "for admins"
     default: op
   core.command.adminitems.explosivegg:
+    description: "for admins"
     default: op
   core.command.lightning:
+    description: "lightning rod"
     default: op
 
   core.command.nodm.bypass:
+    description: "bypass blocked privat messages"
     default: op
 
   core.command.clearlagg:
+    description: "clear all items and mobs"
     default: op
   core.command.seeperms:
+    description: "see perms form other plugins"
     default: op
   core.command.sethub:
+    description: "set the hub"
     default: op
 
   core.command.delwarp:
+    description: "delete a warp"
     default: op
   core.command.setwarp:
+    description: "set a warp"
     default: op
 
   core.command.weather:
+    description: "manage weather"
     default: op
 
 
+  core.events.blockbreak:
+    description: "break block"
+    default: op
+  core.events.blockplace:
+    description: "place block"
+    default: op
+
+  core.events.interact.bonemeal:
+    description: "use bonemeal"
+    default: op
+  core.events.interact.bucket:
+    description: "use buckets"
+    default: op
+  core.events.interact.chest:
+    description: "use chest"
+    default: op
+  core.events.interact.doors:
+    description: "interact whit doors etc"
+    default: op
+  core.events.interact.dragonegg:
+    description: "interact whit dragoneggs"
+    default: op
+  core.events.interact.flintsteel:
+    description: "interact whit flint an steel"
+    default: op
+  core.events.interact.honeycomb:
+    description: "use honeycomb"
+    default: op
+  core.events.interact.itemframe:
+    description: "interact whit itemframe"
+    default: op
+  core.events.interact.sign:
+    description: "interact whit signs"
+    default: op
+
+
+  core.events.itemuse.icebomb:
+    description: "use icebomb"
+    default: op
+
   core.events.spawnprotection.bypass:
+    description: "bypass the spawnprotection"
     default: op
