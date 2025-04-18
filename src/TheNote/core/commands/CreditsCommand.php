@@ -21,7 +21,7 @@ class CreditsCommand extends Command
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
-        parent::__construct("credits", "§f[§5Project§dCore] §cCredits", "/credits");
+        parent::__construct("credits", "§f[§5Project§dCore§f] §cCredits", "/credits");
         $this->setPermission(Main::$defaultperm);
     }
 
@@ -30,7 +30,7 @@ class CreditsCommand extends Command
         $sender->sendMessage("=====§f[§5Project§dCore§f]=====");
         $sender->sendMessage("§dA Core Plugin by TheNote");
         $sender->sendMessage("§dEasy to use!");
-        $sender->sendMessage("§dHelpers §f: §eGamerMJayy, Crasher508");
+        $sender->sendMessage("§dHelpers §f: §eGamerMJay, Crasher508");
         $sender->sendMessage("§dProject Core is a new Version from CoreV5/6/7!");
         return true;
     }
